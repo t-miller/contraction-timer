@@ -1,0 +1,42 @@
+appId: host.exp.exponent
+name: Record Single Contraction
+---
+# Test recording a single contraction from start to finish
+
+- launchApp
+
+# Wait for app to load
+- assertVisible: "Contraction Timer"
+- assertVisible: "START"
+- assertVisible: "No contractions recorded"
+
+# Start timing a contraction
+- tapOn: "START"
+
+# Verify timer is active
+- assertVisible: "STOP"
+- assertVisible: "Tap when contraction ends"
+- assertVisible: "0:00"
+
+# Wait for a few seconds
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "3000"
+
+# End the contraction
+- tapOn: "STOP"
+
+# Verify contraction was recorded
+- assertVisible: "START"
+- assertVisible: "Tap when contraction starts"
+- assertVisible: "History"
+- assertVisible: "Statistics"
+- assertVisible: "Avg Duration"
+
+# Verify contraction appears in list
+- assertVisible:
+    text: "1"
+    enabled: true
+
+- assertVisible: "duration"

@@ -1,0 +1,35 @@
+appId: host.exp.exponent
+name: Clear History
+---
+# Test clearing contraction history
+
+- launchApp
+
+# Wait for app to load
+- assertVisible: "Contraction Timer"
+- assertVisible: "START"
+
+# Record a contraction
+- tapOn: "START"
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "2000"
+- tapOn: "STOP"
+
+# Verify contraction recorded
+- assertVisible: "History"
+- assertVisible: "Clear"
+
+# Tap Clear button
+- tapOn: "Clear"
+
+# Confirm clear action (native alert)
+- tapOn: "Clear"
+
+# Verify history is cleared
+- assertVisible: "No contractions recorded"
+- assertVisible: "Tap the button above to start timing"
+
+# Verify Statistics section is gone
+- assertNotVisible: "Avg Duration"

@@ -1,0 +1,70 @@
+appId: host.exp.exponent
+name: Record Multiple Contractions
+---
+# Test recording multiple contractions and viewing statistics
+
+- launchApp
+
+# Wait for app to load
+- assertVisible: "Contraction Timer"
+- assertVisible: "START"
+
+# Record first contraction
+- tapOn: "START"
+- assertVisible: "STOP"
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "2000"
+- tapOn: "STOP"
+
+# Verify first contraction recorded
+- assertVisible: "History"
+- assertVisible:
+    text: "1"
+    enabled: true
+
+# Wait before second contraction
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "1000"
+
+# Record second contraction
+- tapOn: "START"
+- assertVisible: "STOP"
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "2000"
+- tapOn: "STOP"
+
+# Verify second contraction recorded
+- assertVisible:
+    text: "2"
+    enabled: true
+
+# Verify interval statistics appear
+- assertVisible: "Avg Interval"
+- assertVisible: "Avg Duration"
+- assertVisible: "Total Time"
+
+# Wait before third contraction
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "1000"
+
+# Record third contraction
+- tapOn: "START"
+- assertVisible: "STOP"
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "2000"
+- tapOn: "STOP"
+
+# Verify third contraction recorded
+- assertVisible:
+    text: "3"
+    enabled: true

@@ -19,7 +19,7 @@ export function ContractionItem({ contraction, intervalFromPrevious, index }: Co
   return (
     <View style={[styles.container, { backgroundColor: colors.surface }]}>
       <View style={[styles.indexBadge, { backgroundColor: colors.primaryLight }]}>
-        <Text style={[styles.indexText, { color: colors.primary }]}>{index + 1}</Text>
+        <Text style={[styles.indexText, { color: colors.primary }]}>{index}</Text>
       </View>
       <View style={styles.content}>
         <View style={styles.mainInfo}>

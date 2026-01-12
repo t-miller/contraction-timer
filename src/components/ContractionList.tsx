@@ -60,7 +60,7 @@ export function ContractionList() {
     <ContractionItem
       contraction={item}
       intervalFromPrevious={getIntervalFromPrevious(index)}
-      index={index}
+      index={state.contractions.length - index}
     />
   );
 

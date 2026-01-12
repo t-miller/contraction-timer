@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
   tabIconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    minWidth: 64,
   },
   tabIconBackground: {
     width: 48,
@@ -130,6 +131,7 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     fontSize: 11,
+    textAlign: 'center',
   },
 });
 

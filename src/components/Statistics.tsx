@@ -15,10 +15,12 @@ function StatCard({ value, label, icon }: StatCardProps) {
 
   return (
     <View style={[styles.card, { backgroundColor: colors.surface, shadowColor: colors.cardShadow }]}>
-      <View style={[styles.iconContainer, { backgroundColor: colors.statsBackground }]}>
-        <Text style={styles.icon}>{icon}</Text>
+      <View style={styles.valueRow}>
+        <View style={[styles.iconContainer, { backgroundColor: colors.statsBackground }]}>
+          <Text style={styles.icon}>{icon}</Text>
+        </View>
+        <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
       </View>
-      <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
       <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
     </View>
   );
@@ -51,8 +53,16 @@ export function Statistics() {
     return intervalCount > 0 ? totalInterval / intervalCount : 0;
   };
 
+  const calculateTotalDuration = (): number => {
+    if (completedContractions.length === 0) return 0;
+    const firstContraction = completedContractions[completedContractions.length - 1];
+    const lastContraction = completedContractions[0];
+    return lastContraction.endTime! - firstContraction.startTime;
+  };
+
   const avgDuration = calculateAverageDuration();
   const avgInterval = calculateAverageInterval();
+  const totalDuration = calculateTotalDuration();
 
   if (completedContractions.length === 0) {
     return null;
@@ -63,9 +73,9 @@ export function Statistics() {
       <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Statistics</Text>
       <View style={styles.cardsRow}>
         <StatCard
-          value={completedContractions.length}
-          label="Total"
-          icon="📊"
+          value={formatDuration(totalDuration)}
+          label="Total Time"
+          icon="⏳"
         />
         <StatCard
           value={formatDuration(avgDuration)}
@@ -102,8 +112,9 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 12,
     paddingHorizontal: 12,
     borderRadius: 16,
     shadowOffset: { width: 0, height: 2 },
@@ -111,27 +122,33 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
+  valueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
   iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 8,
   },
   icon: {
     fontSize: 18,
   },
   value: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: '700',
     fontVariant: ['tabular-nums'],
+    textAlign: 'center',
   },
   label: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '500',
-    marginTop: 2,
     textTransform: 'uppercase',
     letterSpacing: 0.3,
+    textAlign: 'center',
+    marginTop: 2,
   },
 });

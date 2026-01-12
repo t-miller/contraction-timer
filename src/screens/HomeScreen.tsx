@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { TimerButton } from '../components/TimerButton';
 import { Statistics } from '../components/Statistics';
 import { ContractionList } from '../components/ContractionList';
+import { SavedSets } from '../components/SavedSets';
 import { Disclaimer } from '../components/Disclaimer';
 
 export function HomeScreen() {
@@ -15,6 +16,7 @@ export function HomeScreen() {
       <TimerButton />
       <Statistics />
       <ContractionList />
+      <SavedSets />
       <Disclaimer />
     </SafeAreaView>
   );

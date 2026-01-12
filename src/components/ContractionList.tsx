@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
 import { useContractions } from '../context/ContractionContext';
 import { ContractionItem } from './ContractionItem';
 import { Contraction } from '../types';
@@ -8,14 +8,20 @@ export function ContractionList() {
   const { state, clearHistory } = useContractions();
 
   const handleClearHistory = () => {
-    Alert.alert(
-      'Clear History',
-      'Are you sure you want to clear all recorded contractions?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Clear', style: 'destructive', onPress: clearHistory },
-      ]
-    );
+    if (Platform.OS === 'web') {
+      if (window.confirm('Are you sure you want to clear all recorded contractions?')) {
+        clearHistory();
+      }
+    } else {
+      Alert.alert(
+        'Clear History',
+        'Are you sure you want to clear all recorded contractions?',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Clear', style: 'destructive', onPress: clearHistory },
+        ]
+      );
+    }
   };
 
   const getIntervalFromPrevious = (index: number): number | null => {

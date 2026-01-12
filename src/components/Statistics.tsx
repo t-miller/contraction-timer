@@ -39,17 +39,17 @@ export function Statistics() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.statsBackground }]}>
-      <View style={styles.stat}>
+    <View style={styles.container}>
+      <View style={[styles.card, { backgroundColor: colors.statsBackground }]}>
         <Text style={[styles.value, { color: colors.statsText }]}>{completedContractions.length}</Text>
         <Text style={[styles.label, { color: colors.textSecondary }]}>Contractions</Text>
       </View>
-      <View style={styles.stat}>
+      <View style={[styles.card, { backgroundColor: colors.statsBackground }]}>
         <Text style={[styles.value, { color: colors.statsText }]}>{formatDuration(avgDuration)}</Text>
         <Text style={[styles.label, { color: colors.textSecondary }]}>Avg Duration</Text>
       </View>
       {avgInterval > 0 && (
-        <View style={styles.stat}>
+        <View style={[styles.card, { backgroundColor: colors.statsBackground }]}>
           <Text style={[styles.value, { color: colors.statsText }]}>{formatDuration(avgInterval)}</Text>
           <Text style={[styles.label, { color: colors.textSecondary }]}>Avg Interval</Text>
         </View>
@@ -61,15 +61,16 @@ export function Statistics() {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 16,
-    paddingHorizontal: 8,
-    borderRadius: 8,
+    justifyContent: 'space-between',
     marginHorizontal: 16,
     marginBottom: 16,
+    gap: 8,
   },
-  stat: {
+  card: {
+    flex: 1,
     alignItems: 'center',
+    padding: 16,
+    borderRadius: 8,
   },
   value: {
     fontSize: 24,

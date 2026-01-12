@@ -60,28 +60,40 @@ export function ContractionList() {
     <ContractionItem
       contraction={item}
       intervalFromPrevious={getIntervalFromPrevious(index)}
+      index={index}
     />
   );
 
   if (state.contractions.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No contractions recorded yet</Text>
-        <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>Tap the button above to start timing</Text>
+        <View style={[styles.emptyIconContainer, { backgroundColor: colors.surfaceSecondary }]}>
+          <Text style={styles.emptyIcon}>⏱</Text>
+        </View>
+        <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No contractions recorded</Text>
+        <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>
+          Tap the button above to start timing
+        </Text>
       </View>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface }]}>
-      <View style={[styles.header, { backgroundColor: colors.surfaceSecondary, borderBottomColor: colors.border }]}>
-        <Text style={[styles.headerText, { color: colors.text }]}>History</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={styles.header}>
+        <Text style={[styles.headerText, { color: colors.textSecondary }]}>History</Text>
         <View style={styles.headerButtons}>
-          <TouchableOpacity onPress={handleSaveSet}>
-            <Text style={[styles.saveButton, { color: colors.primary }]}>Save</Text>
+          <TouchableOpacity
+            style={[styles.headerButton, { backgroundColor: colors.primaryLight }]}
+            onPress={handleSaveSet}
+          >
+            <Text style={[styles.headerButtonText, { color: colors.primary }]}>Save</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleClearHistory}>
-            <Text style={[styles.clearButton, { color: colors.danger }]}>Clear</Text>
+          <TouchableOpacity
+            style={[styles.headerButton, { backgroundColor: colors.dangerLight }]}
+            onPress={handleClearHistory}
+          >
+            <Text style={[styles.headerButtonText, { color: colors.danger }]}>Clear</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -90,6 +102,8 @@ export function ContractionList() {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         style={styles.list}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
       />
 
       <Modal
@@ -99,11 +113,18 @@ export function ContractionList() {
         onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlay }]}>
-          <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
+          <View style={[styles.modalContent, { backgroundColor: colors.surface, shadowColor: colors.shadow }]}>
             <Text style={[styles.modalTitle, { color: colors.text }]}>Save Set</Text>
+            <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
+              Give this recording session a name
+            </Text>
             <TextInput
-              style={[styles.input, { borderColor: colors.border, backgroundColor: colors.inputBackground, color: colors.text }]}
-              placeholder="Enter a name (optional)"
+              style={[styles.input, {
+                borderColor: colors.border,
+                backgroundColor: colors.inputBackground,
+                color: colors.text
+              }]}
+              placeholder="e.g., Morning contractions"
               placeholderTextColor={colors.textTertiary}
               value={setName}
               onChangeText={setSetName}
@@ -111,19 +132,19 @@ export function ContractionList() {
             />
             <View style={styles.modalButtons}>
               <TouchableOpacity
-                style={styles.modalButton}
+                style={[styles.modalButton, { backgroundColor: colors.surfaceSecondary }]}
                 onPress={() => {
                   setSetName('');
                   setIsModalVisible(false);
                 }}
               >
-                <Text style={[styles.cancelButtonText, { color: colors.textSecondary }]}>Cancel</Text>
+                <Text style={[styles.modalButtonText, { color: colors.textSecondary }]}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.modalButton, styles.confirmButton, { backgroundColor: colors.primary }]}
                 onPress={handleConfirmSave}
               >
-                <Text style={styles.confirmButtonText}>Save</Text>
+                <Text style={[styles.modalButtonText, { color: '#FFFFFF' }]}>Save</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -143,24 +164,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    borderBottomWidth: 1,
   },
   headerText: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   headerButtons: {
     flexDirection: 'row',
-    gap: 16,
+    gap: 8,
   },
-  saveButton: {
-    fontSize: 16,
+  headerButton: {
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 8,
   },
-  clearButton: {
-    fontSize: 16,
+  headerButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   list: {
     flex: 1,
+  },
+  listContent: {
+    paddingBottom: 8,
   },
   emptyContainer: {
     flex: 1,
@@ -168,12 +196,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
   },
+  emptyIconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  emptyIcon: {
+    fontSize: 32,
+  },
   emptyText: {
     fontSize: 18,
+    fontWeight: '600',
     marginBottom: 8,
   },
   emptyHint: {
     fontSize: 14,
+    textAlign: 'center',
   },
   modalOverlay: {
     flex: 1,
@@ -181,40 +222,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    borderRadius: 12,
+    borderRadius: 20,
     padding: 24,
-    width: '80%',
-    maxWidth: 300,
+    width: '85%',
+    maxWidth: 340,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.15,
+    shadowRadius: 20,
+    elevation: 10,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
+    fontSize: 22,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    marginBottom: 20,
   },
   input: {
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 12,
+    borderWidth: 1.5,
+    borderRadius: 12,
+    padding: 14,
     fontSize: 16,
-    marginBottom: 16,
+    marginBottom: 20,
   },
   modalButtons: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    gap: 12,
   },
   modalButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    flex: 1,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
   },
-  confirmButton: {
-    borderRadius: 8,
-  },
-  cancelButtonText: {
+  confirmButton: {},
+  modalButtonText: {
     fontSize: 16,
-  },
-  confirmButtonText: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    fontWeight: '500',
+    fontWeight: '600',
   },
 });

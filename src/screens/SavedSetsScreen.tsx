@@ -3,13 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   TouchableOpacity,
   FlatList,
   Alert,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
@@ -61,37 +61,62 @@ export function SavedSetsScreen() {
 
   const formatDate = (timestamp: number): string => {
     const date = new Date(timestamp);
-    return date.toLocaleDateString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    return date.toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  const formatTime = (timestamp: number): string => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   const renderItem = ({ item }: { item: ContractionSet }) => (
-    <View style={[styles.setItem, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
-      <TouchableOpacity style={styles.setInfo} onPress={() => handleLoadSet(item)}>
-        <Text style={[styles.setName, { color: colors.text }]}>{item.name}</Text>
-        <Text style={[styles.setDetails, { color: colors.textSecondary }]}>
-          {item.contractions.length} contractions - {formatDate(item.createdAt)}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.deleteButton}
-        onPress={() => handleDeleteSet(item)}
-      >
-        <Text style={[styles.deleteButtonText, { color: colors.danger }]}>Delete</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      style={[styles.card, { backgroundColor: colors.surface, shadowColor: colors.cardShadow }]}
+      onPress={() => handleLoadSet(item)}
+      activeOpacity={0.7}
+    >
+      <View style={styles.cardContent}>
+        <View style={[styles.iconContainer, { backgroundColor: colors.primaryLight }]}>
+          <Text style={styles.icon}>📋</Text>
+        </View>
+        <View style={styles.cardInfo}>
+          <Text style={[styles.setName, { color: colors.text }]}>{item.name}</Text>
+          <Text style={[styles.setMeta, { color: colors.textSecondary }]}>
+            {item.contractions.length} contraction{item.contractions.length !== 1 ? 's' : ''}
+          </Text>
+          <Text style={[styles.setDate, { color: colors.textTertiary }]}>
+            {formatDate(item.createdAt)} at {formatTime(item.createdAt)}
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={[styles.deleteButton, { backgroundColor: colors.dangerLight }]}
+          onPress={() => handleDeleteSet(item)}
+        >
+          <Text style={[styles.deleteButtonText, { color: colors.danger }]}>Delete</Text>
+        </TouchableOpacity>
+      </View>
+    </TouchableOpacity>
   );
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
-      <View style={[styles.header, { borderBottomColor: colors.border }]}>
+      <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Saved Sets</Text>
+        <Text style={[styles.subtitle, { color: colors.textTertiary }]}>
+          {state.savedSets.length} saved recording{state.savedSets.length !== 1 ? 's' : ''}
+        </Text>
       </View>
 
       {state.savedSets.length === 0 ? (
         <View style={styles.emptyContainer}>
+          <View style={[styles.emptyIconContainer, { backgroundColor: colors.surfaceSecondary }]}>
+            <Text style={styles.emptyIcon}>📁</Text>
+          </View>
           <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No saved sets</Text>
-          <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>Save your current contractions from the Home screen</Text>
+          <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>
+            Save your contractions from the Home screen to access them here
+          </Text>
         </View>
       ) : (
         <FlatList
@@ -99,6 +124,8 @@ export function SavedSetsScreen() {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           style={styles.list}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
         />
       )}
     </SafeAreaView>
@@ -110,41 +137,74 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingVertical: 16,
+    paddingTop: 8,
+    paddingBottom: 16,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
+    fontWeight: '700',
+    letterSpacing: -0.5,
+  },
+  subtitle: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginTop: 2,
   },
   list: {
     flex: 1,
   },
-  setItem: {
+  listContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+  },
+  card: {
+    borderRadius: 16,
+    marginBottom: 12,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
+    padding: 16,
   },
-  setInfo: {
+  iconContainer: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 14,
+  },
+  icon: {
+    fontSize: 22,
+  },
+  cardInfo: {
     flex: 1,
   },
   setName: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 17,
+    fontWeight: '600',
   },
-  setDetails: {
+  setMeta: {
     fontSize: 14,
     marginTop: 2,
   },
+  setDate: {
+    fontSize: 12,
+    marginTop: 2,
+  },
   deleteButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 8,
   },
   deleteButtonText: {
     fontSize: 14,
+    fontWeight: '600',
   },
   emptyContainer: {
     flex: 1,
@@ -152,12 +212,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
   },
+  emptyIconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  emptyIcon: {
+    fontSize: 32,
+  },
   emptyText: {
     fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 8,
   },
   emptyHint: {
     fontSize: 14,
-    marginTop: 8,
     textAlign: 'center',
+    maxWidth: 280,
   },
 });

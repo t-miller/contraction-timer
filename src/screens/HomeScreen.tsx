@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { TimerButton } from '../components/TimerButton';
 import { Statistics } from '../components/Statistics';
 import { ContractionList } from '../components/ContractionList';
@@ -10,10 +11,11 @@ export function HomeScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
-      <View style={[styles.header, { borderBottomColor: colors.border }]}>
+      <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Contraction Timer</Text>
+        <Text style={[styles.subtitle, { color: colors.textTertiary }]}>Track and time your contractions</Text>
       </View>
       <TimerButton />
       <Statistics />
@@ -28,13 +30,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingVertical: 16,
+    paddingTop: 8,
+    paddingBottom: 4,
     paddingHorizontal: 16,
-    borderBottomWidth: 1,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: '700',
+    letterSpacing: -0.5,
+  },
+  subtitle: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginTop: 2,
   },
 });

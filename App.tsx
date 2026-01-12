@@ -1,7 +1,8 @@
 import React from 'react';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ContractionProvider } from './src/context/ContractionContext';
 import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import { HomeScreen } from './src/screens/HomeScreen';
@@ -9,6 +10,28 @@ import { SavedSetsScreen } from './src/screens/SavedSetsScreen';
 import { SettingsScreen } from './src/screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
+
+interface TabIconProps {
+  icon: string;
+  label: string;
+  focused: boolean;
+  color: string;
+}
+
+function TabIcon({ icon, label, focused, color }: TabIconProps) {
+  const { colors } = useTheme();
+  return (
+    <View style={styles.tabIconContainer}>
+      <View style={[
+        styles.tabIconBackground,
+        focused && { backgroundColor: colors.primaryLight }
+      ]}>
+        <Text style={[styles.tabIcon, { opacity: focused ? 1 : 0.7 }]}>{icon}</Text>
+      </View>
+      <Text style={[styles.tabLabel, { color, fontWeight: focused ? '600' : '500' }]}>{label}</Text>
+    </View>
+  );
+}
 
 function AppContent() {
   const { colors, isDark } = useTheme();
@@ -19,7 +42,7 @@ function AppContent() {
         colors: {
           ...DarkTheme.colors,
           background: colors.background,
-          card: colors.background,
+          card: colors.surface,
           border: colors.border,
           primary: colors.primary,
         },
@@ -29,7 +52,7 @@ function AppContent() {
         colors: {
           ...DefaultTheme.colors,
           background: colors.background,
-          card: colors.background,
+          card: colors.surface,
           border: colors.border,
           primary: colors.primary,
         },
@@ -43,18 +66,26 @@ function AppContent() {
           tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.textTertiary,
           tabBarStyle: {
-            borderTopWidth: 1,
-            borderTopColor: colors.border,
-            backgroundColor: colors.background,
+            height: 80,
+            paddingTop: 8,
+            paddingBottom: 24,
+            borderTopWidth: 0,
+            backgroundColor: colors.surface,
+            shadowColor: colors.shadow,
+            shadowOffset: { width: 0, height: -4 },
+            shadowOpacity: 0.08,
+            shadowRadius: 12,
+            elevation: 10,
           },
+          tabBarShowLabel: false,
         }}
       >
         <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: ({ color }) => (
-              <Text style={{ fontSize: 20, color }}>⏱</Text>
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon icon="⏱" label="Timer" focused={focused} color={color} />
             ),
           }}
         />
@@ -62,8 +93,8 @@ function AppContent() {
           name="Saved Sets"
           component={SavedSetsScreen}
           options={{
-            tabBarIcon: ({ color }) => (
-              <Text style={{ fontSize: 20, color }}>📁</Text>
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon icon="📁" label="Saved" focused={focused} color={color} />
             ),
           }}
         />
@@ -71,8 +102,8 @@ function AppContent() {
           name="Settings"
           component={SettingsScreen}
           options={{
-            tabBarIcon: ({ color }) => (
-              <Text style={{ fontSize: 20, color }}>⚙️</Text>
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon icon="⚙️" label="Settings" focused={focused} color={color} />
             ),
           }}
         />
@@ -81,12 +112,35 @@ function AppContent() {
   );
 }
 
+const styles = StyleSheet.create({
+  tabIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabIconBackground: {
+    width: 48,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 4,
+  },
+  tabIcon: {
+    fontSize: 20,
+  },
+  tabLabel: {
+    fontSize: 11,
+  },
+});
+
 export default function App() {
   return (
-    <ThemeProvider>
-      <ContractionProvider>
-        <AppContent />
-      </ContractionProvider>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <ContractionProvider>
+          <AppContent />
+        </ContractionProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

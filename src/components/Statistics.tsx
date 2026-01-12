@@ -4,6 +4,26 @@ import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
 import { formatDuration } from '../utils/formatting';
 
+interface StatCardProps {
+  value: string | number;
+  label: string;
+  icon: string;
+}
+
+function StatCard({ value, label, icon }: StatCardProps) {
+  const { colors } = useTheme();
+
+  return (
+    <View style={[styles.card, { backgroundColor: colors.surface, shadowColor: colors.cardShadow }]}>
+      <View style={[styles.iconContainer, { backgroundColor: colors.statsBackground }]}>
+        <Text style={styles.icon}>{icon}</Text>
+      </View>
+      <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
+      <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
+    </View>
+  );
+}
+
 export function Statistics() {
   const { state } = useContractions();
   const { colors } = useTheme();
@@ -40,44 +60,78 @@ export function Statistics() {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.card, { backgroundColor: colors.statsBackground }]}>
-        <Text style={[styles.value, { color: colors.statsText }]}>{completedContractions.length}</Text>
-        <Text style={[styles.label, { color: colors.textSecondary }]}>Contractions</Text>
+      <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Statistics</Text>
+      <View style={styles.cardsRow}>
+        <StatCard
+          value={completedContractions.length}
+          label="Total"
+          icon="📊"
+        />
+        <StatCard
+          value={formatDuration(avgDuration)}
+          label="Avg Duration"
+          icon="⏱"
+        />
+        {avgInterval > 0 && (
+          <StatCard
+            value={formatDuration(avgInterval)}
+            label="Avg Interval"
+            icon="↔️"
+          />
+        )}
       </View>
-      <View style={[styles.card, { backgroundColor: colors.statsBackground }]}>
-        <Text style={[styles.value, { color: colors.statsText }]}>{formatDuration(avgDuration)}</Text>
-        <Text style={[styles.label, { color: colors.textSecondary }]}>Avg Duration</Text>
-      </View>
-      {avgInterval > 0 && (
-        <View style={[styles.card, { backgroundColor: colors.statsBackground }]}>
-          <Text style={[styles.value, { color: colors.statsText }]}>{formatDuration(avgInterval)}</Text>
-          <Text style={[styles.label, { color: colors.textSecondary }]}>Avg Interval</Text>
-        </View>
-      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 16,
+    paddingHorizontal: 16,
     marginBottom: 16,
-    gap: 8,
+  },
+  sectionTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 12,
+  },
+  cardsRow: {
+    flexDirection: 'row',
+    gap: 12,
   },
   card: {
     flex: 1,
     alignItems: 'center',
-    padding: 16,
-    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  icon: {
+    fontSize: 18,
   },
   value: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: '700',
+    fontVariant: ['tabular-nums'],
   },
   label: {
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: 11,
+    fontWeight: '500',
+    marginTop: 2,
+    textTransform: 'uppercase',
+    letterSpacing: 0.3,
   },
 });

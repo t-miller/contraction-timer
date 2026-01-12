@@ -14,13 +14,17 @@ export function HomeScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Contraction Timer</Text>
-        <Text style={[styles.subtitle, { color: colors.textTertiary }]}>Track and time your contractions</Text>
+        <View style={styles.headerContent}>
+          <View style={styles.headerText}>
+            <Text style={[styles.title, { color: colors.text }]}>Contraction Timer</Text>
+            <Text style={[styles.subtitle, { color: colors.textTertiary }]}>Track and time your contractions</Text>
+          </View>
+          <Disclaimer />
+        </View>
       </View>
       <TimerButton />
       <Statistics />
       <ContractionList />
-      <Disclaimer />
     </SafeAreaView>
   );
 }
@@ -33,6 +37,14 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 4,
     paddingHorizontal: 16,
+  },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  headerText: {
+    flex: 1,
   },
   title: {
     fontSize: 28,

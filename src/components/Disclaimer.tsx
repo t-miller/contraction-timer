@@ -1,44 +1,97 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 
 export function Disclaimer() {
   const { colors } = useTheme();
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.disclaimerBackground }]}>
-      <View style={styles.content}>
+    <>
+      <TouchableOpacity
+        style={[styles.iconButton, { backgroundColor: colors.disclaimerBackground }]}
+        onPress={() => setShowModal(true)}
+        accessibilityLabel="Medical disclaimer"
+        accessibilityHint="Tap to view medical disclaimer"
+      >
         <Text style={styles.icon}>ℹ️</Text>
-        <Text style={[styles.text, { color: colors.disclaimerText }]}>
-          This app is a timing tool only. It does not provide medical advice.
-          Always consult with your healthcare provider.
-        </Text>
-      </View>
-    </View>
+      </TouchableOpacity>
+
+      <Modal
+        visible={showModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowModal(false)}
+      >
+        <Pressable style={styles.modalOverlay} onPress={() => setShowModal(false)}>
+          <View style={[styles.modalContent, { backgroundColor: colors.surface }]}>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Disclaimer</Text>
+            <Text style={[styles.modalText, { color: colors.textSecondary }]}>
+              This app is a timing tool only. It does not provide medical advice.
+              Always consult with your healthcare provider.
+            </Text>
+            <TouchableOpacity
+              style={[styles.closeButton, { backgroundColor: colors.primary }]}
+              onPress={() => setShowModal(false)}
+            >
+              <Text style={styles.closeButtonText}>Got it</Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      </Modal>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginHorizontal: 16,
-    marginBottom: 8,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  content: {
-    flexDirection: 'row',
+  iconButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+    justifyContent: 'center',
   },
   icon: {
-    fontSize: 16,
-    marginRight: 10,
+    fontSize: 18,
   },
-  text: {
+  modalOverlay: {
     flex: 1,
-    fontSize: 12,
-    lineHeight: 18,
-    fontWeight: '500',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  modalContent: {
+    width: '100%',
+    maxWidth: 320,
+    borderRadius: 16,
+    padding: 24,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 12,
+  },
+  modalText: {
+    fontSize: 14,
+    lineHeight: 22,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  closeButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 24,
+  },
+  closeButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

@@ -12,11 +12,13 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useContractions } from '../context/ContractionContext';
+import { useTheme } from '../context/ThemeContext';
 import { ContractionSet } from '../types';
 
 export function SavedSetsScreen() {
   const navigation = useNavigation();
   const { state, loadSet, deleteSet } = useContractions();
+  const { colors } = useTheme();
 
   const handleLoadSet = (set: ContractionSet) => {
     const doLoad = () => {
@@ -63,10 +65,10 @@ export function SavedSetsScreen() {
   };
 
   const renderItem = ({ item }: { item: ContractionSet }) => (
-    <View style={styles.setItem}>
+    <View style={[styles.setItem, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
       <TouchableOpacity style={styles.setInfo} onPress={() => handleLoadSet(item)}>
-        <Text style={styles.setName}>{item.name}</Text>
-        <Text style={styles.setDetails}>
+        <Text style={[styles.setName, { color: colors.text }]}>{item.name}</Text>
+        <Text style={[styles.setDetails, { color: colors.textSecondary }]}>
           {item.contractions.length} contractions - {formatDate(item.createdAt)}
         </Text>
       </TouchableOpacity>
@@ -74,22 +76,22 @@ export function SavedSetsScreen() {
         style={styles.deleteButton}
         onPress={() => handleDeleteSet(item)}
       >
-        <Text style={styles.deleteButtonText}>Delete</Text>
+        <Text style={[styles.deleteButtonText, { color: colors.danger }]}>Delete</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      <View style={styles.header}>
-        <Text style={styles.title}>Saved Sets</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
+      <View style={[styles.header, { borderBottomColor: colors.border }]}>
+        <Text style={[styles.title, { color: colors.text }]}>Saved Sets</Text>
       </View>
 
       {state.savedSets.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No saved sets</Text>
-          <Text style={styles.emptyHint}>Save your current contractions from the Home screen</Text>
+          <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No saved sets</Text>
+          <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>Save your current contractions from the Home screen</Text>
         </View>
       ) : (
         <FlatList
@@ -106,18 +108,15 @@ export function SavedSetsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   header: {
     paddingVertical: 16,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
   },
   list: {
     flex: 1,
@@ -127,9 +126,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
   },
   setInfo: {
     flex: 1,
@@ -137,11 +134,9 @@ const styles = StyleSheet.create({
   setName: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
   },
   setDetails: {
     fontSize: 14,
-    color: '#666',
     marginTop: 2,
   },
   deleteButton: {
@@ -150,7 +145,6 @@ const styles = StyleSheet.create({
   },
   deleteButtonText: {
     fontSize: 14,
-    color: '#F44336',
   },
   emptyContainer: {
     flex: 1,
@@ -160,11 +154,9 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 18,
-    color: '#666',
   },
   emptyHint: {
     fontSize: 14,
-    color: '#999',
     marginTop: 8,
     textAlign: 'center',
   },

@@ -11,11 +11,13 @@ import {
   TextInput,
 } from 'react-native';
 import { useContractions } from '../context/ContractionContext';
+import { useTheme } from '../context/ThemeContext';
 import { ContractionItem } from './ContractionItem';
 import { Contraction } from '../types';
 
 export function ContractionList() {
   const { state, clearHistory, saveSet } = useContractions();
+  const { colors } = useTheme();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [setName, setSetName] = useState('');
 
@@ -64,22 +66,22 @@ export function ContractionList() {
   if (state.contractions.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>No contractions recorded yet</Text>
-        <Text style={styles.emptyHint}>Tap the button above to start timing</Text>
+        <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No contractions recorded yet</Text>
+        <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>Tap the button above to start timing</Text>
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>History</Text>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
+      <View style={[styles.header, { backgroundColor: colors.surfaceSecondary, borderBottomColor: colors.border }]}>
+        <Text style={[styles.headerText, { color: colors.text }]}>History</Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity onPress={handleSaveSet}>
-            <Text style={styles.saveButton}>Save</Text>
+            <Text style={[styles.saveButton, { color: colors.primary }]}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleClearHistory}>
-            <Text style={styles.clearButton}>Clear</Text>
+            <Text style={[styles.clearButton, { color: colors.danger }]}>Clear</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -96,12 +98,13 @@ export function ContractionList() {
         animationType="fade"
         onRequestClose={() => setIsModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Save Set</Text>
+        <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlay }]}>
+          <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Save Set</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { borderColor: colors.border, backgroundColor: colors.inputBackground, color: colors.text }]}
               placeholder="Enter a name (optional)"
+              placeholderTextColor={colors.textTertiary}
               value={setName}
               onChangeText={setSetName}
               autoFocus
@@ -114,10 +117,10 @@ export function ContractionList() {
                   setIsModalVisible(false);
                 }}
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={[styles.cancelButtonText, { color: colors.textSecondary }]}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.modalButton, styles.confirmButton]}
+                style={[styles.modalButton, styles.confirmButton, { backgroundColor: colors.primary }]}
                 onPress={handleConfirmSave}
               >
                 <Text style={styles.confirmButtonText}>Save</Text>
@@ -133,7 +136,6 @@ export function ContractionList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   header: {
     flexDirection: 'row',
@@ -141,14 +143,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#FAFAFA',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
   },
   headerText: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
   },
   headerButtons: {
     flexDirection: 'row',
@@ -156,11 +155,9 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     fontSize: 16,
-    color: '#2196F3',
   },
   clearButton: {
     fontSize: 16,
-    color: '#F44336',
   },
   list: {
     flex: 1,
@@ -173,21 +170,17 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 18,
-    color: '#666',
     marginBottom: 8,
   },
   emptyHint: {
     fontSize: 14,
-    color: '#999',
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 24,
     width: '80%',
@@ -196,12 +189,10 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#333',
     marginBottom: 16,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#E0E0E0',
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
@@ -216,12 +207,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   confirmButton: {
-    backgroundColor: '#2196F3',
     borderRadius: 8,
   },
   cancelButtonText: {
     fontSize: 16,
-    color: '#666',
   },
   confirmButtonText: {
     fontSize: 16,

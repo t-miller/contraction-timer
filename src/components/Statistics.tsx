@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useContractions } from '../context/ContractionContext';
+import { useTheme } from '../context/ThemeContext';
 import { formatDuration } from '../utils/formatting';
 
 export function Statistics() {
   const { state } = useContractions();
+  const { colors } = useTheme();
   const completedContractions = state.contractions.filter((c) => c.endTime !== null);
 
   const calculateAverageDuration = (): number => {
@@ -37,19 +39,19 @@ export function Statistics() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.statsBackground }]}>
       <View style={styles.stat}>
-        <Text style={styles.value}>{completedContractions.length}</Text>
-        <Text style={styles.label}>Contractions</Text>
+        <Text style={[styles.value, { color: colors.statsText }]}>{completedContractions.length}</Text>
+        <Text style={[styles.label, { color: colors.textSecondary }]}>Contractions</Text>
       </View>
       <View style={styles.stat}>
-        <Text style={styles.value}>{formatDuration(avgDuration)}</Text>
-        <Text style={styles.label}>Avg Duration</Text>
+        <Text style={[styles.value, { color: colors.statsText }]}>{formatDuration(avgDuration)}</Text>
+        <Text style={[styles.label, { color: colors.textSecondary }]}>Avg Duration</Text>
       </View>
       {avgInterval > 0 && (
         <View style={styles.stat}>
-          <Text style={styles.value}>{formatDuration(avgInterval)}</Text>
-          <Text style={styles.label}>Avg Interval</Text>
+          <Text style={[styles.value, { color: colors.statsText }]}>{formatDuration(avgInterval)}</Text>
+          <Text style={[styles.label, { color: colors.textSecondary }]}>Avg Interval</Text>
         </View>
       )}
     </View>
@@ -62,7 +64,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingVertical: 16,
     paddingHorizontal: 8,
-    backgroundColor: '#E3F2FD',
     borderRadius: 8,
     marginHorizontal: 16,
     marginBottom: 16,
@@ -73,11 +74,9 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#1976D2',
   },
   label: {
     fontSize: 12,
-    color: '#666',
     marginTop: 4,
   },
 });

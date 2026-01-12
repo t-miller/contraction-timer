@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Contraction } from '../types';
+import { useTheme } from '../context/ThemeContext';
 import { formatDuration, formatTime } from '../utils/formatting';
 
 interface ContractionItemProps {
@@ -9,23 +10,24 @@ interface ContractionItemProps {
 }
 
 export function ContractionItem({ contraction, intervalFromPrevious }: ContractionItemProps) {
+  const { colors } = useTheme();
   const duration = contraction.endTime
     ? contraction.endTime - contraction.startTime
     : 0;
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
       <View style={styles.timeColumn}>
-        <Text style={styles.label}>Time</Text>
-        <Text style={styles.value}>{formatTime(contraction.startTime)}</Text>
+        <Text style={[styles.label, { color: colors.textTertiary }]}>Time</Text>
+        <Text style={[styles.value, { color: colors.text }]}>{formatTime(contraction.startTime)}</Text>
       </View>
       <View style={styles.column}>
-        <Text style={styles.label}>Duration</Text>
-        <Text style={styles.value}>{formatDuration(duration)}</Text>
+        <Text style={[styles.label, { color: colors.textTertiary }]}>Duration</Text>
+        <Text style={[styles.value, { color: colors.text }]}>{formatDuration(duration)}</Text>
       </View>
       <View style={styles.column}>
-        <Text style={styles.label}>Interval</Text>
-        <Text style={styles.value}>
+        <Text style={[styles.label, { color: colors.textTertiary }]}>Interval</Text>
+        <Text style={[styles.value, { color: colors.text }]}>
           {intervalFromPrevious !== null ? formatDuration(intervalFromPrevious) : '-'}
         </Text>
       </View>
@@ -38,9 +40,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: '#FFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
   },
   timeColumn: {
     flex: 1,
@@ -51,12 +51,10 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: '#888',
     marginBottom: 4,
   },
   value: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
   },
 });

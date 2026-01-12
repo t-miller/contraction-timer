@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { useContractions } from '../context/ContractionContext';
+import { useTheme } from '../context/ThemeContext';
 import { formatDuration } from '../utils/formatting';
 
 export function TimerButton() {
   const { state, startContraction, endContraction } = useContractions();
+  const { colors } = useTheme();
   const [elapsed, setElapsed] = useState(0);
   const isActive = state.activeContraction !== null;
 
@@ -32,7 +34,11 @@ export function TimerButton() {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.button, isActive && styles.buttonActive]}
+        style={[
+          styles.button,
+          { backgroundColor: colors.success, shadowColor: colors.shadow },
+          isActive && { backgroundColor: colors.danger },
+        ]}
         onPress={handlePress}
         activeOpacity={0.8}
       >
@@ -43,7 +49,7 @@ export function TimerButton() {
           <Text style={styles.timerText}>{formatDuration(elapsed)}</Text>
         )}
       </TouchableOpacity>
-      <Text style={styles.hint}>
+      <Text style={[styles.hint, { color: colors.textSecondary }]}>
         {isActive ? 'Tap when contraction ends' : 'Tap when contraction starts'}
       </Text>
     </View>
@@ -59,17 +65,12 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
-    backgroundColor: '#4CAF50',
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 8,
-  },
-  buttonActive: {
-    backgroundColor: '#F44336',
   },
   buttonText: {
     color: '#FFFFFF',
@@ -84,6 +85,5 @@ const styles = StyleSheet.create({
   hint: {
     marginTop: 16,
     fontSize: 16,
-    color: '#666',
   },
 });

@@ -4,13 +4,16 @@ import { TimerButton } from '../components/TimerButton';
 import { Statistics } from '../components/Statistics';
 import { ContractionList } from '../components/ContractionList';
 import { Disclaimer } from '../components/Disclaimer';
+import { useTheme } from '../context/ThemeContext';
 
 export function HomeScreen() {
+  const { colors } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      <View style={styles.header}>
-        <Text style={styles.title}>Contraction Timer</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
+      <View style={[styles.header, { borderBottomColor: colors.border }]}>
+        <Text style={[styles.title, { color: colors.text }]}>Contraction Timer</Text>
       </View>
       <TimerButton />
       <Statistics />
@@ -23,18 +26,15 @@ export function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   header: {
     paddingVertical: 16,
     paddingHorizontal: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
     textAlign: 'center',
   },
 });

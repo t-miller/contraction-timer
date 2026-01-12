@@ -67,9 +67,10 @@ function AppContent() {
           tabBarInactiveTintColor: colors.textTertiary,
           tabBarStyle: {
             height: 80,
-            paddingTop: 8,
-            paddingBottom: 24,
+            paddingTop: 12,
+            paddingBottom: 12,
             borderTopWidth: 0,
+            justifyContent: 'center',
             backgroundColor: colors.surface,
             shadowColor: colors.shadow,
             shadowOffset: { width: 0, height: -4 },

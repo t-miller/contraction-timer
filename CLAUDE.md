@@ -1,3 +1,9 @@
+## Claude Instructions
+
+**IMPORTANT**: Always use the `/planning-with-files` skill at the start of any task. This creates `task_plan.md`, `findings.md`, and `progress.md` files to track work systematically.
+
+---
+
 # Contraction Timer App
 
 A cross-platform contraction timing tool for iOS, Android, and Web built with React Native and Expo.

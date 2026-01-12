@@ -7,20 +7,14 @@ import { formatDuration } from '../utils/formatting';
 interface StatCardProps {
   value: string | number;
   label: string;
-  icon: string;
 }
 
-function StatCard({ value, label, icon }: StatCardProps) {
+function StatCard({ value, label }: StatCardProps) {
   const { colors } = useTheme();
 
   return (
     <View style={[styles.card, { backgroundColor: colors.surface, shadowColor: colors.cardShadow }]}>
-      <View style={styles.valueRow}>
-        <View style={[styles.iconContainer, { backgroundColor: colors.statsBackground }]}>
-          <Text style={styles.icon}>{icon}</Text>
-        </View>
-        <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
-      </View>
+      <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
       <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
     </View>
   );
@@ -75,18 +69,15 @@ export function Statistics() {
         <StatCard
           value={formatDuration(totalDuration)}
           label="Total Time"
-          icon="⏳"
         />
         <StatCard
           value={formatDuration(avgDuration)}
           label="Avg Duration"
-          icon="⏱"
         />
         {avgInterval > 0 && (
           <StatCard
             value={formatDuration(avgInterval)}
             label="Avg Interval"
-            icon="↔️"
           />
         )}
       </View>
@@ -114,31 +105,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 8,
     borderRadius: 16,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 1,
     shadowRadius: 8,
     elevation: 3,
-  },
-  valueRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  iconContainer: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  icon: {
-    fontSize: 18,
+    gap: 4,
   },
   value: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '700',
     fontVariant: ['tabular-nums'],
     textAlign: 'center',
@@ -149,6 +126,5 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.3,
     textAlign: 'center',
-    marginTop: 2,
   },
 });

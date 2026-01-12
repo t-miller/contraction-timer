@@ -6,6 +6,7 @@ import { ContractionProvider } from './src/context/ContractionContext';
 import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import { HomeScreen } from './src/screens/HomeScreen';
 import { SavedSetsScreen } from './src/screens/SavedSetsScreen';
+import { SettingsScreen } from './src/screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -63,6 +64,15 @@ function AppContent() {
           options={{
             tabBarIcon: ({ color }) => (
               <Text style={{ fontSize: 20, color }}>📁</Text>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Text style={{ fontSize: 20, color }}>⚙️</Text>
             ),
           }}
         />

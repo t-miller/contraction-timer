@@ -1,5 +1,10 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const THEME_STORAGE_KEY = 'themePreference';
+
+export type ThemeMode = 'system' | 'light' | 'dark';
 
 const lightColors = {
   background: '#FFFFFF',
@@ -45,11 +50,13 @@ const darkColors = {
   statusBar: 'light-content' as const,
 };
 
-export type ThemeColors = typeof lightColors;
+export type ThemeColors = typeof lightColors | typeof darkColors;
 
 interface ThemeContextValue {
   colors: ThemeColors;
   isDark: boolean;
+  themeMode: ThemeMode;
+  setThemeMode: (mode: ThemeMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
@@ -59,12 +66,34 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const systemColorScheme = useColorScheme();
+  const [themeMode, setThemeModeState] = useState<ThemeMode>('system');
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem(THEME_STORAGE_KEY).then((stored) => {
+      if (stored === 'light' || stored === 'dark' || stored === 'system') {
+        setThemeModeState(stored);
+      }
+      setIsLoaded(true);
+    });
+  }, []);
+
+  const setThemeMode = (mode: ThemeMode) => {
+    setThemeModeState(mode);
+    AsyncStorage.setItem(THEME_STORAGE_KEY, mode);
+  };
+
+  const isDark =
+    themeMode === 'system' ? systemColorScheme === 'dark' : themeMode === 'dark';
   const colors = isDark ? darkColors : lightColors;
 
+  if (!isLoaded) {
+    return null;
+  }
+
   return (
-    <ThemeContext.Provider value={{ colors, isDark }}>
+    <ThemeContext.Provider value={{ colors, isDark, themeMode, setThemeMode }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -47,6 +47,7 @@ export function Instructions() {
             </TouchableOpacity>
 
             <Text style={[styles.disclaimerText, { color: colors.textSecondary }]}>
+              Your data is private and stored only on this device.
               This app is a timing tool only and does not provide medical advice. Always consult your healthcare provider.
             </Text>
           </View>
@@ -121,6 +122,13 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     textAlign: 'center',
     marginTop: 16,
+    opacity: 0.7,
+  },
+  privacyText: {
+    fontSize: 11,
+    lineHeight: 16,
+    textAlign: 'center',
+    marginTop: 8,
     opacity: 0.7,
   },
 });

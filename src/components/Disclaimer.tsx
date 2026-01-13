@@ -9,7 +9,7 @@ export function Disclaimer() {
   return (
     <>
       <TouchableOpacity
-        style={[styles.iconButton, { backgroundColor: colors.disclaimerBackground }]}
+        style={[styles.iconButton, { backgroundColor: colors.surfaceSecondary }]}
         onPress={() => setShowModal(true)}
         accessibilityLabel="Medical disclaimer"
         accessibilityHint="Tap to view medical disclaimer"
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   iconButton: {
     width: 36,
     height: 36,
-    borderRadius: 18,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },

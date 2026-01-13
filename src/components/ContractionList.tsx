@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  FlatList,
   StyleSheet,
   TouchableOpacity,
   Alert,
@@ -13,7 +12,6 @@ import {
 import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
 import { ContractionItem } from './ContractionItem';
-import { Contraction } from '../types';
 
 export function ContractionList() {
   const { state, clearHistory, saveSet } = useContractions();
@@ -56,14 +54,6 @@ export function ContractionList() {
     return current.startTime - (previous.endTime || previous.startTime);
   };
 
-  const renderItem = ({ item, index }: { item: Contraction; index: number }) => (
-    <ContractionItem
-      contraction={item}
-      intervalFromPrevious={getIntervalFromPrevious(index)}
-      index={state.contractions.length - index}
-    />
-  );
-
   if (state.contractions.length === 0) {
     return (
       <View style={styles.emptyContainer} testID="empty-state">
@@ -99,14 +89,16 @@ export function ContractionList() {
           </TouchableOpacity>
         </View>
       </View>
-      <FlatList
-        data={state.contractions}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        style={styles.list}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-      />
+      <View style={styles.listContent}>
+        {state.contractions.map((item, index) => (
+          <ContractionItem
+            key={item.id}
+            contraction={item}
+            intervalFromPrevious={getIntervalFromPrevious(index)}
+            index={state.contractions.length - index}
+          />
+        ))}
+      </View>
 
       <Modal
         visible={isModalVisible}
@@ -159,9 +151,7 @@ export function ContractionList() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -187,9 +177,6 @@ const styles = StyleSheet.create({
   headerButtonText: {
     fontSize: 14,
     fontWeight: '600',
-  },
-  list: {
-    flex: 1,
   },
   listContent: {
     paddingBottom: 8,

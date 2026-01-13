@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   value: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: '700',
     fontVariant: ['tabular-nums'],
     textAlign: 'center',

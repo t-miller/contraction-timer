@@ -18,7 +18,7 @@ function StatCard({ value, label, isHighlighted }: StatCardProps) {
   const labelColor = isHighlighted ? 'rgba(255, 255, 255, 0.85)' : colors.textSecondary;
 
   return (
-    <View style={[styles.card, { backgroundColor, shadowColor: colors.cardShadow }]}>
+    <View style={[styles.card, { backgroundColor, boxShadow: `0 2px 8px ${colors.cardShadow}` }]}>
       <Text style={[styles.value, { color: textColor }]}>{value}</Text>
       <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
     </View>
@@ -125,9 +125,6 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 8,
     borderRadius: 16,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
     elevation: 3,
     gap: 4,
   },

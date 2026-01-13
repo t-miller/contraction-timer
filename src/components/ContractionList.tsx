@@ -113,7 +113,7 @@ export function ContractionList() {
         onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlay }]}>
-          <View style={[styles.modalContent, { backgroundColor: colors.surface, shadowColor: colors.shadow }]}>
+          <View style={[styles.modalContent, { backgroundColor: colors.surface, boxShadow: `0 10px 20px ${colors.shadow}26` }]}>
             <Text style={[styles.modalTitle, { color: colors.text }]}>Save Set</Text>
             <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
               Give this recording session a name
@@ -226,9 +226,6 @@ const styles = StyleSheet.create({
     padding: 24,
     width: '85%',
     maxWidth: 340,
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.15,
-    shadowRadius: 20,
     elevation: 10,
   },
   modalTitle: {

@@ -91,7 +91,7 @@ export function TimerButton() {
               styles.button,
               {
                 backgroundColor: isActive ? colors.danger : colors.success,
-                shadowColor: isActive ? colors.danger : colors.success,
+                boxShadow: `0 8px 16px ${isActive ? colors.danger : colors.success}59`,
               },
             ]}
             onPress={handlePress}
@@ -143,9 +143,6 @@ const styles = StyleSheet.create({
     borderRadius: 90,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
     elevation: 12,
   },
   buttonText: {

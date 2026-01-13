@@ -71,7 +71,7 @@ export function SavedSetsScreen() {
 
   const renderItem = ({ item }: { item: ContractionSet }) => (
     <TouchableOpacity
-      style={[styles.card, { backgroundColor: colors.surface, shadowColor: colors.cardShadow }]}
+      style={[styles.card, { backgroundColor: colors.surface, boxShadow: `0 2px 8px ${colors.cardShadow}` }]}
       onPress={() => handleLoadSet(item)}
       activeOpacity={0.7}
     >
@@ -161,9 +161,6 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     marginBottom: 12,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
     elevation: 3,
   },
   cardContent: {

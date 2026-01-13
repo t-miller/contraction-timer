@@ -30,7 +30,7 @@ export function SettingsScreen() {
         <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>
           Appearance
         </Text>
-        <View style={[styles.optionGroup, { backgroundColor: colors.surface, shadowColor: colors.cardShadow }]}>
+        <View style={[styles.optionGroup, { backgroundColor: colors.surface, boxShadow: `0 2px 8px ${colors.cardShadow}` }]}>
           {themeOptions.map((option, index) => {
             const isSelected = themeMode === option.value;
             return (
@@ -108,9 +108,6 @@ const styles = StyleSheet.create({
   optionGroup: {
     borderRadius: 16,
     overflow: 'hidden',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
     elevation: 3,
   },
   option: {

@@ -2,20 +2,25 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
-import { formatDuration } from '../utils/formatting';
+import { formatDuration, formatDurationHoursMinutes } from '../utils/formatting';
 
 interface StatCardProps {
   value: string | number;
   label: string;
+  isHighlighted?: boolean;
 }
 
-function StatCard({ value, label }: StatCardProps) {
+function StatCard({ value, label, isHighlighted }: StatCardProps) {
   const { colors } = useTheme();
 
+  const backgroundColor = isHighlighted ? '#22c55e' : colors.surface;
+  const textColor = isHighlighted ? '#ffffff' : colors.text;
+  const labelColor = isHighlighted ? 'rgba(255, 255, 255, 0.85)' : colors.textSecondary;
+
   return (
-    <View style={[styles.card, { backgroundColor: colors.surface, shadowColor: colors.cardShadow }]}>
-      <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
-      <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
+    <View style={[styles.card, { backgroundColor, shadowColor: colors.cardShadow }]}>
+      <Text style={[styles.value, { color: textColor }]}>{value}</Text>
+      <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
     </View>
   );
 }
@@ -58,6 +63,15 @@ export function Statistics() {
   const avgInterval = calculateAverageInterval();
   const totalDuration = calculateTotalDuration();
 
+  // 5-1-1 rule thresholds
+  const FIVE_MINUTES = 5 * 60 * 1000;
+  const ONE_MINUTE = 60 * 1000;
+  const ONE_HOUR = 60 * 60 * 1000;
+
+  const isIntervalMet = avgInterval > 0 && avgInterval <= FIVE_MINUTES;
+  const isDurationMet = avgDuration >= ONE_MINUTE;
+  const isTotalTimeMet = totalDuration >= ONE_HOUR;
+
   if (completedContractions.length === 0) {
     return null;
   }
@@ -66,20 +80,23 @@ export function Statistics() {
     <View style={styles.container}>
       <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Statistics</Text>
       <View style={styles.cardsRow}>
-        <StatCard
-          value={formatDuration(totalDuration)}
-          label="Total Time"
-        />
-        <StatCard
-          value={formatDuration(avgDuration)}
-          label="Avg Duration"
-        />
         {avgInterval > 0 && (
           <StatCard
             value={formatDuration(avgInterval)}
             label="Avg Interval"
+            isHighlighted={isIntervalMet}
           />
         )}
+        <StatCard
+          value={formatDuration(avgDuration)}
+          label="Avg Duration"
+          isHighlighted={isDurationMet}
+        />
+        <StatCard
+          value={formatDurationHoursMinutes(totalDuration)}
+          label="Total Time"
+          isHighlighted={isTotalTimeMet}
+        />
       </View>
     </View>
   );

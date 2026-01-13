@@ -31,11 +31,11 @@ describe('Statistics', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Statistics')).toBeTruthy();
+      expect(screen.getByTestId('statistics-title').textContent).toBe('Statistics');
     });
 
-    expect(screen.getByText('Avg Duration')).toBeTruthy();
-    expect(screen.getByText('Total Time')).toBeTruthy();
+    expect(screen.getByTestId('stat-label-avg-duration').textContent).toBe('Avg Duration');
+    expect(screen.getByTestId('stat-label-total-time').textContent).toBe('Total Time');
   });
 
   it('calculates average duration correctly', async () => {
@@ -54,7 +54,7 @@ describe('Statistics', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('0:45')).toBeTruthy();
+      expect(screen.getByTestId('stat-value-avg-duration').textContent).toBe('0:45');
     });
   });
 
@@ -74,8 +74,8 @@ describe('Statistics', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Avg Interval')).toBeTruthy();
-      expect(screen.getByText('1:00')).toBeTruthy();
+      expect(screen.getByTestId('stat-label-avg-interval').textContent).toBe('Avg Interval');
+      expect(screen.getByTestId('stat-value-avg-interval').textContent).toBe('1:00');
     });
   });
 
@@ -93,7 +93,7 @@ describe('Statistics', () => {
     );
 
     await waitFor(() => {
-      expect(screen.queryByText('Avg Interval')).toBeNull();
+      expect(screen.queryByTestId('stat-label-avg-interval')).toBeNull();
     });
   });
 
@@ -113,7 +113,7 @@ describe('Statistics', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('1h 01min')).toBeTruthy();
+      expect(screen.getByTestId('stat-value-total-time').textContent).toBe('1h 01min');
     });
   });
 
@@ -132,11 +132,11 @@ describe('Statistics', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Statistics')).toBeTruthy();
+      expect(screen.getByTestId('statistics-title').textContent).toBe('Statistics');
     });
 
     // Should only count the completed contraction
-    expect(screen.getByText('1:00')).toBeTruthy();
-    expect(screen.queryByText('Avg Interval')).toBeNull(); // Only 1 completed
+    expect(screen.getByTestId('stat-value-avg-duration').textContent).toBe('1:00');
+    expect(screen.queryByTestId('stat-label-avg-interval')).toBeNull(); // Only 1 completed
   });
 });

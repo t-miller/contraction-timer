@@ -17,21 +17,21 @@ export function ContractionItem({ contraction, intervalFromPrevious, index }: Co
     : 0;
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface }]}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]} testID={`contraction-item-${index}`}>
       <View style={[styles.indexBadge, { backgroundColor: colors.primaryLight }]}>
-        <Text style={[styles.indexText, { color: colors.primary }]}>{index}</Text>
+        <Text style={[styles.indexText, { color: colors.primary }]} testID={`contraction-index-${index}`}>{index}</Text>
       </View>
       <View style={styles.content}>
         <View style={styles.mainInfo}>
-          <Text style={[styles.time, { color: colors.text }]}>{formatTime(contraction.startTime)}</Text>
+          <Text style={[styles.time, { color: colors.text }]} testID={`contraction-time-${index}`}>{formatTime(contraction.startTime)}</Text>
           <View style={styles.metrics}>
             <View style={styles.metric}>
-              <Text style={[styles.metricValue, { color: colors.text }]}>{formatDuration(duration)}</Text>
+              <Text style={[styles.metricValue, { color: colors.text }]} testID={`contraction-duration-${index}`}>{formatDuration(duration)}</Text>
               <Text style={[styles.metricLabel, { color: colors.textTertiary }]}>duration</Text>
             </View>
             <View style={[styles.separator, { backgroundColor: colors.border }]} />
             <View style={styles.metric}>
-              <Text style={[styles.metricValue, { color: colors.text }]}>
+              <Text style={[styles.metricValue, { color: colors.text }]} testID={`contraction-interval-${index}`}>
                 {intervalFromPrevious !== null ? formatDuration(intervalFromPrevious) : '—'}
               </Text>
               <Text style={[styles.metricLabel, { color: colors.textTertiary }]}>interval</Text>

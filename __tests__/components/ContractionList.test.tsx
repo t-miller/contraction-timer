@@ -28,7 +28,7 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('No contractions recorded')).toBeTruthy();
+        expect(screen.getByTestId('empty-state-text').textContent).toBe('No contractions recorded');
       });
     });
 
@@ -40,7 +40,7 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('Tap the button above to start timing')).toBeTruthy();
+        expect(screen.getByTestId('empty-state-hint').textContent).toBe('Tap the button above to start timing');
       });
     });
 
@@ -52,7 +52,7 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('⏱')).toBeTruthy();
+        expect(screen.getByTestId('empty-state-icon').textContent).toBe('⏱');
       });
     });
   });
@@ -77,7 +77,7 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('History')).toBeTruthy();
+        expect(screen.getByTestId('history-header').textContent).toBe('History');
       });
     });
 
@@ -91,8 +91,8 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('Save')).toBeTruthy();
-        expect(screen.getByText('Clear')).toBeTruthy();
+        expect(screen.getByTestId('save-button')).toBeTruthy();
+        expect(screen.getByTestId('clear-button')).toBeTruthy();
       });
     });
 
@@ -107,8 +107,8 @@ describe('ContractionList', () => {
 
       await waitFor(() => {
         // Should show index numbers (1 and 2)
-        expect(screen.getByText('1')).toBeTruthy();
-        expect(screen.getByText('2')).toBeTruthy();
+        expect(screen.getByTestId('contraction-index-1').textContent).toBe('1');
+        expect(screen.getByTestId('contraction-index-2').textContent).toBe('2');
       });
     });
 
@@ -128,9 +128,8 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        // Multiple elements may have 1:00 (duration and interval)
-        const elements = screen.getAllByText('1:00');
-        expect(elements.length).toBeGreaterThanOrEqual(1);
+        // The second contraction (index 2) should have interval 1:00
+        expect(screen.getByTestId('contraction-interval-2').textContent).toBe('1:00');
       });
     });
   });
@@ -154,14 +153,14 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('Save')).toBeTruthy();
+        expect(screen.getByTestId('save-button')).toBeTruthy();
       });
 
-      fireEvent.click(screen.getByText('Save'));
+      fireEvent.click(screen.getByTestId('save-button'));
 
       await waitFor(() => {
-        expect(screen.getByText('Save Set')).toBeTruthy();
-        expect(screen.getByText('Give this recording session a name')).toBeTruthy();
+        expect(screen.getByTestId('modal-title').textContent).toBe('Save Set');
+        expect(screen.getByTestId('modal-subtitle').textContent).toBe('Give this recording session a name');
       });
     });
 
@@ -175,15 +174,14 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('Save')).toBeTruthy();
+        expect(screen.getByTestId('save-button')).toBeTruthy();
       });
 
-      fireEvent.click(screen.getByText('Save'));
+      fireEvent.click(screen.getByTestId('save-button'));
 
       await waitFor(() => {
-        expect(screen.getByText('Cancel')).toBeTruthy();
-        // There will be two "Save" texts - one button and one in modal
-        expect(screen.getAllByText('Save').length).toBeGreaterThanOrEqual(2);
+        expect(screen.getByTestId('modal-cancel-button')).toBeTruthy();
+        expect(screen.getByTestId('modal-save-button')).toBeTruthy();
       });
     });
 

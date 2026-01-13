@@ -66,12 +66,12 @@ export function ContractionList() {
 
   if (state.contractions.length === 0) {
     return (
-      <View style={styles.emptyContainer}>
+      <View style={styles.emptyContainer} testID="empty-state">
         <View style={[styles.emptyIconContainer, { backgroundColor: colors.surfaceSecondary }]}>
-          <Text style={styles.emptyIcon}>⏱</Text>
+          <Text style={styles.emptyIcon} testID="empty-state-icon">⏱</Text>
         </View>
-        <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No contractions recorded</Text>
-        <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>
+        <Text style={[styles.emptyText, { color: colors.textSecondary }]} testID="empty-state-text">No contractions recorded</Text>
+        <Text style={[styles.emptyHint, { color: colors.textTertiary }]} testID="empty-state-hint">
           Tap the button above to start timing
         </Text>
       </View>
@@ -79,19 +79,21 @@ export function ContractionList() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <View style={[styles.container, { backgroundColor: colors.background }]} testID="contraction-list">
       <View style={styles.header}>
-        <Text style={[styles.headerText, { color: colors.textSecondary }]}>History</Text>
+        <Text style={[styles.headerText, { color: colors.textSecondary }]} testID="history-header">History</Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity
             style={[styles.headerButton, { backgroundColor: colors.primaryLight }]}
             onPress={handleSaveSet}
+            testID="save-button"
           >
             <Text style={[styles.headerButtonText, { color: colors.primary }]}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.headerButton, { backgroundColor: colors.dangerLight }]}
             onPress={handleClearHistory}
+            testID="clear-button"
           >
             <Text style={[styles.headerButtonText, { color: colors.danger }]}>Clear</Text>
           </TouchableOpacity>
@@ -114,8 +116,8 @@ export function ContractionList() {
       >
         <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlay }]}>
           <View style={[styles.modalContent, { backgroundColor: colors.surface, boxShadow: `0 10px 20px ${colors.shadow}26` }]}>
-            <Text style={[styles.modalTitle, { color: colors.text }]}>Save Set</Text>
-            <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]}>
+            <Text style={[styles.modalTitle, { color: colors.text }]} testID="modal-title">Save Set</Text>
+            <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]} testID="modal-subtitle">
               Give this recording session a name
             </Text>
             <TextInput
@@ -137,12 +139,14 @@ export function ContractionList() {
                   setSetName('');
                   setIsModalVisible(false);
                 }}
+                testID="modal-cancel-button"
               >
                 <Text style={[styles.modalButtonText, { color: colors.textSecondary }]}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.modalButton, styles.confirmButton, { backgroundColor: colors.primary }]}
                 onPress={handleConfirmSave}
+                testID="modal-save-button"
               >
                 <Text style={[styles.modalButtonText, { color: '#FFFFFF' }]}>Save</Text>
               </TouchableOpacity>

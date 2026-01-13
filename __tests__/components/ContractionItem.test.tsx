@@ -28,9 +28,8 @@ describe('ContractionItem', () => {
       </TestWrapper>
     );
 
-    // Use getAllByText since '1' appears multiple times and check at least one exists
-    const elements = screen.getAllByText('1');
-    expect(elements.length).toBeGreaterThan(0);
+    const indexElement = screen.getByTestId('contraction-index-1');
+    expect(indexElement.textContent).toBe('1');
   });
 
   it('renders the start time', () => {
@@ -51,7 +50,8 @@ describe('ContractionItem', () => {
     );
 
     // Check that time is rendered (format like "10:30 AM")
-    expect(screen.getByText(/10:30/)).toBeTruthy();
+    const timeElement = screen.getByTestId('contraction-time-1');
+    expect(timeElement.textContent).toMatch(/10:30/);
   });
 
   it('renders duration correctly', () => {
@@ -71,8 +71,8 @@ describe('ContractionItem', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('1:30')).toBeTruthy();
-    expect(screen.getByText('duration')).toBeTruthy();
+    const durationElement = screen.getByTestId('contraction-duration-1');
+    expect(durationElement.textContent).toBe('1:30');
   });
 
   it('renders interval when provided', () => {
@@ -92,8 +92,8 @@ describe('ContractionItem', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('5:00')).toBeTruthy();
-    expect(screen.getByText('interval')).toBeTruthy();
+    const intervalElement = screen.getByTestId('contraction-interval-1');
+    expect(intervalElement.textContent).toBe('5:00');
   });
 
   it('renders dash for null interval', () => {
@@ -113,7 +113,8 @@ describe('ContractionItem', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('—')).toBeTruthy();
+    const intervalElement = screen.getByTestId('contraction-interval-1');
+    expect(intervalElement.textContent).toBe('—');
   });
 
   it('renders 0:00 duration for ongoing contraction', () => {
@@ -133,7 +134,8 @@ describe('ContractionItem', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('0:00')).toBeTruthy();
+    const durationElement = screen.getByTestId('contraction-duration-1');
+    expect(durationElement.textContent).toBe('0:00');
   });
 
   it('formats short durations correctly', () => {
@@ -153,7 +155,8 @@ describe('ContractionItem', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('0:05')).toBeTruthy();
+    const durationElement = screen.getByTestId('contraction-duration-1');
+    expect(durationElement.textContent).toBe('0:05');
   });
 
   it('formats long durations correctly', () => {
@@ -173,6 +176,7 @@ describe('ContractionItem', () => {
       </TestWrapper>
     );
 
-    expect(screen.getByText('10:00')).toBeTruthy();
+    const durationElement = screen.getByTestId('contraction-duration-1');
+    expect(durationElement.textContent).toBe('10:00');
   });
 });

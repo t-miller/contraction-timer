@@ -19,7 +19,7 @@ describe('TimerButton', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('START')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('START');
     });
   });
 
@@ -31,7 +31,7 @@ describe('TimerButton', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Tap when contraction starts')).toBeTruthy();
+      expect(screen.getByTestId('timer-hint').textContent).toBe('Tap when contraction starts');
     });
   });
 
@@ -43,13 +43,13 @@ describe('TimerButton', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('START')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('START');
     });
 
-    fireEvent.click(screen.getByText('START'));
+    fireEvent.click(screen.getByTestId('timer-button'));
 
     await waitFor(() => {
-      expect(screen.getByText('STOP')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('STOP');
     });
   });
 
@@ -61,13 +61,13 @@ describe('TimerButton', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('START')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('START');
     });
 
-    fireEvent.click(screen.getByText('START'));
+    fireEvent.click(screen.getByTestId('timer-button'));
 
     await waitFor(() => {
-      expect(screen.getByText('Tap when contraction ends')).toBeTruthy();
+      expect(screen.getByTestId('timer-hint').textContent).toBe('Tap when contraction ends');
     });
   });
 
@@ -79,21 +79,21 @@ describe('TimerButton', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('START')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('START');
     });
 
     // Start
-    fireEvent.click(screen.getByText('START'));
+    fireEvent.click(screen.getByTestId('timer-button'));
 
     await waitFor(() => {
-      expect(screen.getByText('STOP')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('STOP');
     });
 
     // Stop
-    fireEvent.click(screen.getByText('STOP'));
+    fireEvent.click(screen.getByTestId('timer-button'));
 
     await waitFor(() => {
-      expect(screen.getByText('START')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('START');
     });
   });
 
@@ -105,17 +105,17 @@ describe('TimerButton', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('START')).toBeTruthy();
+      expect(screen.getByTestId('timer-button-text').textContent).toBe('START');
     });
 
     // No timer displayed initially
-    expect(screen.queryByText('0:00')).toBeNull();
+    expect(screen.queryByTestId('timer-elapsed')).toBeNull();
 
-    fireEvent.click(screen.getByText('START'));
+    fireEvent.click(screen.getByTestId('timer-button'));
 
     // Timer should be displayed when active (starts at 0:00)
     await waitFor(() => {
-      expect(screen.getByText('0:00')).toBeTruthy();
+      expect(screen.getByTestId('timer-elapsed').textContent).toBe('0:00');
     });
   });
 });

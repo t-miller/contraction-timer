@@ -17,10 +17,11 @@ function StatCard({ value, label, isHighlighted }: StatCardProps) {
   const textColor = isHighlighted ? '#ffffff' : colors.text;
   const labelColor = isHighlighted ? 'rgba(255, 255, 255, 0.85)' : colors.textSecondary;
 
+  const testIdLabel = label.toLowerCase().replace(/\s+/g, '-');
   return (
-    <View style={[styles.card, { backgroundColor, boxShadow: `0 2px 8px ${colors.cardShadow}` }]}>
-      <Text style={[styles.value, { color: textColor }]}>{value}</Text>
-      <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
+    <View style={[styles.card, { backgroundColor, boxShadow: `0 2px 8px ${colors.cardShadow}` }]} testID={`stat-card-${testIdLabel}`}>
+      <Text style={[styles.value, { color: textColor }]} testID={`stat-value-${testIdLabel}`}>{value}</Text>
+      <Text style={[styles.label, { color: labelColor }]} testID={`stat-label-${testIdLabel}`}>{label}</Text>
     </View>
   );
 }
@@ -77,8 +78,8 @@ export function Statistics() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>Statistics</Text>
+    <View style={styles.container} testID="statistics-container">
+      <Text style={[styles.sectionTitle, { color: colors.textSecondary }]} testID="statistics-title">Statistics</Text>
       <View style={styles.cardsRow}>
         {avgInterval > 0 && (
           <StatCard

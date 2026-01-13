@@ -98,17 +98,18 @@ export function TimerButton() {
             onPressIn={handlePressIn}
             onPressOut={handlePressOut}
             activeOpacity={1}
+            testID="timer-button"
           >
-            <Text style={styles.buttonText}>
+            <Text style={styles.buttonText} testID="timer-button-text">
               {isActive ? 'STOP' : 'START'}
             </Text>
             {isActive && (
-              <Text style={styles.timerText}>{formatDuration(elapsed)}</Text>
+              <Text style={styles.timerText} testID="timer-elapsed">{formatDuration(elapsed)}</Text>
             )}
           </TouchableOpacity>
         </Animated.View>
       </View>
-      <Text style={[styles.hint, { color: colors.textSecondary }]}>
+      <Text style={[styles.hint, { color: colors.textSecondary }]} testID="timer-hint">
         {isActive ? 'Tap when contraction ends' : 'Tap when contraction starts'}
       </Text>
     </View>

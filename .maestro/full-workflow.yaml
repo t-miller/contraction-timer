@@ -1,0 +1,87 @@
+appId: host.exp.exponent
+name: Full Workflow - Record, Save, Clear, Load
+---
+# Test complete workflow: record contractions, save, clear, and load
+
+- launchApp
+
+# Wait for app to load
+- assertVisible: "Contraction Timer"
+- assertVisible: "START"
+
+# === Record multiple contractions ===
+
+# First contraction
+- tapOn: "START"
+- assertVisible: "STOP"
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "3000"
+- tapOn: "STOP"
+- assertVisible: "START"
+
+# Wait between contractions
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "1000"
+
+# Second contraction
+- tapOn: "START"
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "2000"
+- tapOn: "STOP"
+
+# Verify we have 2 contractions
+- assertVisible:
+    text: "2"
+    enabled: true
+- assertVisible: "Avg Interval"
+
+# === Save the set ===
+- tapOn: "Save"
+- assertVisible: "Save Set"
+- tapOn:
+    id: "setNameInput"
+- inputText: "Test Session"
+- tapOn:
+    text: "Save"
+    index: 1
+
+# Verify modal closed
+- assertNotVisible: "Save Set"
+
+# === Clear history ===
+- tapOn: "Clear"
+- tapOn: "Clear"
+
+# Verify cleared
+- assertVisible: "No contractions recorded"
+
+# === Navigate to Saved Sets ===
+- tapOn: "Saved"
+- assertVisible: "Saved Sets"
+- assertVisible: "Test Session"
+
+# === Load the saved set ===
+- tapOn: "Test Session"
+- tapOn: "Load"
+
+# Verify contractions are loaded (should navigate to Timer)
+- tapOn: "Timer"
+- assertVisible: "History"
+- assertVisible:
+    text: "2"
+    enabled: true
+
+# === Delete the saved set ===
+- tapOn: "Saved"
+- tapOn: "Test Session"
+- tapOn: "Delete"
+- tapOn: "Delete"
+
+# Verify set is gone
+- assertVisible: "No saved sets"

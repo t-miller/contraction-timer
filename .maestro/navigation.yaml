@@ -1,0 +1,36 @@
+appId: host.exp.exponent
+name: Tab Navigation
+---
+# Test navigating between app tabs
+
+- launchApp
+
+# Wait for app to load
+- assertVisible: "Contraction Timer"
+
+# Verify we're on Timer tab
+- assertVisible: "START"
+- assertVisible: "Timer"
+
+# Navigate to Saved Sets tab
+- tapOn: "Saved"
+
+# Verify Saved Sets screen
+- assertVisible: "Saved Sets"
+
+# Navigate to Settings tab
+- tapOn: "Settings"
+
+# Verify Settings screen
+- assertVisible: "Settings"
+- assertVisible: "Appearance"
+- assertVisible: "System"
+- assertVisible: "Light"
+- assertVisible: "Dark"
+
+# Navigate back to Timer tab
+- tapOn: "Timer"
+
+# Verify Timer screen
+- assertVisible: "Contraction Timer"
+- assertVisible: "START"

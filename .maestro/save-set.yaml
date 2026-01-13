@@ -1,0 +1,48 @@
+appId: host.exp.exponent
+name: Save Contraction Set
+---
+# Test saving contractions as a named set
+
+- launchApp
+
+# Wait for app to load
+- assertVisible: "Contraction Timer"
+- assertVisible: "START"
+
+# Record a contraction
+- tapOn: "START"
+- runScript:
+    file: scripts/wait.js
+    env:
+      WAIT_TIME: "2000"
+- tapOn: "STOP"
+
+# Verify contraction recorded
+- assertVisible: "History"
+- assertVisible: "Save"
+
+# Tap Save button
+- tapOn: "Save"
+
+# Verify save modal appears
+- assertVisible: "Save Set"
+- assertVisible: "Give this recording session a name"
+
+# Enter a name
+- tapOn:
+    id: "setNameInput"
+- inputText: "Morning Session"
+
+# Confirm save
+- tapOn:
+    text: "Save"
+    index: 1
+
+# Verify modal closed
+- assertNotVisible: "Save Set"
+
+# Navigate to Saved Sets tab
+- tapOn: "Saved"
+
+# Verify set appears in saved list
+- assertVisible: "Morning Session"

@@ -1,0 +1,44 @@
+appId: host.exp.exponent
+name: Theme Switching
+---
+# Test switching between light and dark themes
+
+- launchApp
+
+# Wait for app to load
+- assertVisible: "Contraction Timer"
+
+# Navigate to Settings tab
+- tapOn: "Settings"
+
+# Verify theme options
+- assertVisible: "Appearance"
+- assertVisible: "System"
+- assertVisible: "Light"
+- assertVisible: "Dark"
+
+# Select Light theme
+- tapOn: "Light"
+
+# Navigate back to Timer
+- tapOn: "Timer"
+- assertVisible: "START"
+
+# Navigate back to Settings
+- tapOn: "Settings"
+
+# Select Dark theme
+- tapOn: "Dark"
+
+# Navigate back to Timer
+- tapOn: "Timer"
+- assertVisible: "START"
+
+# Navigate back to Settings
+- tapOn: "Settings"
+
+# Select System theme
+- tapOn: "System"
+
+# Verify selection persists
+- assertVisible: "Appearance"

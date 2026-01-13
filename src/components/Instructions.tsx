@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
 
-export function Disclaimer() {
+export function Instructions() {
   const { colors } = useTheme();
   const [showModal, setShowModal] = useState(false);
 
@@ -11,8 +11,8 @@ export function Disclaimer() {
       <TouchableOpacity
         style={[styles.iconButton, { backgroundColor: colors.surfaceSecondary }]}
         onPress={() => setShowModal(true)}
-        accessibilityLabel="Medical disclaimer"
-        accessibilityHint="Tap to view medical disclaimer"
+        accessibilityLabel="Instructions"
+        accessibilityHint="Tap to view app instructions"
       >
         <Text style={styles.icon}>ℹ️</Text>
       </TouchableOpacity>
@@ -25,17 +25,30 @@ export function Disclaimer() {
       >
         <Pressable style={styles.modalOverlay} onPress={() => setShowModal(false)}>
           <View style={[styles.modalContent, { backgroundColor: colors.surface }]}>
-            <Text style={[styles.modalTitle, { color: colors.text }]}>Disclaimer</Text>
-            <Text style={[styles.modalText, { color: colors.textSecondary }]}>
-              This app is a timing tool only. It does not provide medical advice.
-              Always consult with your healthcare provider.
-            </Text>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>How to Use</Text>
+
+            <View style={styles.instructionsList}>
+              <Text style={[styles.instructionItem, { color: colors.textSecondary }]}>
+                1. Tap the button when a contraction starts
+              </Text>
+              <Text style={[styles.instructionItem, { color: colors.textSecondary }]}>
+                2. Tap again when it ends
+              </Text>
+              <Text style={[styles.instructionItem, { color: colors.textSecondary }]}>
+                3. View your history and statistics below
+              </Text>
+            </View>
+
             <TouchableOpacity
               style={[styles.closeButton, { backgroundColor: colors.primary }]}
               onPress={() => setShowModal(false)}
             >
               <Text style={styles.closeButtonText}>Got it</Text>
             </TouchableOpacity>
+
+            <Text style={[styles.disclaimerText, { color: colors.textSecondary }]}>
+              This app is a timing tool only and does not provide medical advice. Always consult your healthcare provider.
+            </Text>
           </View>
         </Pressable>
       </Modal>
@@ -93,5 +106,21 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+  },
+  instructionsList: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  instructionItem: {
+    fontSize: 14,
+    lineHeight: 24,
+    textAlign: 'left',
+  },
+  disclaimerText: {
+    fontSize: 11,
+    lineHeight: 16,
+    textAlign: 'center',
+    marginTop: 16,
+    opacity: 0.7,
   },
 });

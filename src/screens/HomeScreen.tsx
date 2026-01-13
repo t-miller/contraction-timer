@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { TimerButton } from '../components/TimerButton';
 import { Statistics } from '../components/Statistics';
 import { ContractionList } from '../components/ContractionList';
-import { Disclaimer } from '../components/Disclaimer';
+import { Instructions } from '../components/Instructions';
 import { useTheme } from '../context/ThemeContext';
 
 export function HomeScreen() {
@@ -19,7 +19,7 @@ export function HomeScreen() {
             <Text style={[styles.title, { color: colors.text }]}>Contraction Timer</Text>
             <Text style={[styles.subtitle, { color: colors.textTertiary }]}>Track and time your contractions</Text>
           </View>
-          <Disclaimer />
+          <Instructions />
         </View>
       </View>
       <TimerButton />

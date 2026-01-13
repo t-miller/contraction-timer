@@ -2,6 +2,8 @@
 
 **IMPORTANT**: Always use the `/planning-with-files` skill at the start of any task. This creates `task_plan.md`, `findings.md`, and `progress.md` files to track work systematically.
 
+**IMPORTANT**: Always use `pnpm` as the package manager. Never use `npm` or `yarn` for installing dependencies.
+
 ---
 
 # Contraction Timer App
@@ -32,10 +34,10 @@ npx expo build:android   # Build Android
 npx expo export:web      # Export web build
 
 # Testing
-npm test                 # Run tests (if configured)
+pnpm test                # Run tests (if configured)
 
 # Dependencies
-npm install              # Install dependencies
+pnpm install             # Install dependencies
 ```
 
 ## Directory Structure

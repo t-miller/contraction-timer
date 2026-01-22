@@ -78,7 +78,8 @@ jobs:
       - name: Start iOS Simulator
         uses: futureware-tech/simulator-action@v3
         with:
-          model: 'iPhone 15'
+          model: 'iPhone 16'
+          os_version: '18'
 
       - name: Install Expo CLI
         run: pnpm add -g expo-cli

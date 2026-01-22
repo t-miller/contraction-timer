@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main, init]
 
+permissions:
+  contents: read
+
 jobs:
   unit-tests:
     name: Unit & Integration Tests
@@ -78,10 +81,8 @@ jobs:
       - name: Start iOS Simulator
         uses: futureware-tech/simulator-action@v3
         with:
-          model: 'iPhone 15'
-
-      - name: Install Expo CLI
-        run: pnpm add -g expo-cli
+          model: 'iPhone 16'
+          os_version: '18'
 
       - name: Start Expo
         run: |

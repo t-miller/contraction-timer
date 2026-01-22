@@ -81,9 +81,6 @@ jobs:
           model: 'iPhone 16'
           os_version: '18'
 
-      - name: Install Expo CLI
-        run: pnpm add -g expo-cli
-
       - name: Start Expo
         run: |
           npx expo start --ios --no-dev &

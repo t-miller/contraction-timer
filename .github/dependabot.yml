@@ -12,3 +12,14 @@ updates:
       npm_and_yarn:
         patterns:
           - "*"
+    # Expo-managed packages - versions must match Expo SDK requirements
+    # Use `npx expo install` to update these instead
+    ignore:
+      - dependency-name: "react"
+      - dependency-name: "react-dom"
+      - dependency-name: "react-native"
+      - dependency-name: "react-native-*"
+      - dependency-name: "@types/react"
+      - dependency-name: "expo"
+      - dependency-name: "expo-*"
+      - dependency-name: "@expo/*"

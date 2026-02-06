@@ -16,8 +16,18 @@ export function ContractionItem({ contraction, intervalFromPrevious, index }: Co
     ? contraction.endTime - contraction.startTime
     : 0;
 
+  const intervalLabel = intervalFromPrevious !== null
+    ? `interval ${formatDuration(intervalFromPrevious)}`
+    : 'no previous interval';
+
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface }]} testID={`contraction-item-${index}`}>
+    <View
+      style={[styles.container, { backgroundColor: colors.surface }]}
+      testID={`contraction-item-${index}`}
+      accessible={true}
+      accessibilityRole="summary"
+      accessibilityLabel={`Contraction ${index}, duration ${formatDuration(duration)}, ${intervalLabel}`}
+    >
       <View style={[styles.indexBadge, { backgroundColor: colors.primaryLight }]}>
         <Text style={[styles.indexText, { color: colors.primary }]} testID={`contraction-index-${index}`}>{index}</Text>
       </View>

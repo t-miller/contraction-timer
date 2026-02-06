@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Contraction } from '../types';
 import { useTheme } from '../context/ThemeContext';
@@ -10,7 +10,7 @@ interface ContractionItemProps {
   index: number;
 }
 
-export function ContractionItem({ contraction, intervalFromPrevious, index }: ContractionItemProps) {
+export const ContractionItem = memo(function ContractionItem({ contraction, intervalFromPrevious, index }: ContractionItemProps) {
   const { colors } = useTheme();
   const duration = contraction.endTime
     ? contraction.endTime - contraction.startTime
@@ -51,7 +51,7 @@ export function ContractionItem({ contraction, intervalFromPrevious, index }: Co
       </View>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

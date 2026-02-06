@@ -5,14 +5,18 @@ import { TimerButton } from '../components/TimerButton';
 import { Statistics } from '../components/Statistics';
 import { ContractionList } from '../components/ContractionList';
 import { Instructions } from '../components/Instructions';
+import { ErrorBanner } from '../components/ErrorBanner';
 import { useTheme } from '../context/ThemeContext';
+import { useContractions } from '../context/ContractionContext';
 
 export function HomeScreen() {
   const { colors } = useTheme();
+  const { state, clearError } = useContractions();
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']} testID="home-screen">
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
+      <ErrorBanner error={state.error} onDismiss={clearError} />
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <View style={styles.headerContent}>

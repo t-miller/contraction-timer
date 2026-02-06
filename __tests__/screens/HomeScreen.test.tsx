@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeScreen } from '../../src/screens/HomeScreen';
 import { ContractionProvider } from '../../src/context/ContractionContext';
 import { ThemeProvider } from '../../src/context/ThemeContext';
@@ -81,6 +82,40 @@ describe('HomeScreen', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('instructions-button')).toBeTruthy();
+    });
+  });
+
+  it('displays error banner when storage error occurs', async () => {
+    await AsyncStorage.setItem('contractions', 'invalid json');
+
+    render(
+      <TestWrapper>
+        <HomeScreen />
+      </TestWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Failed to load/)).toBeTruthy();
+    });
+  });
+
+  it('dismisses error banner when dismiss button pressed', async () => {
+    await AsyncStorage.setItem('contractions', 'invalid json');
+
+    render(
+      <TestWrapper>
+        <HomeScreen />
+      </TestWrapper>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Failed to load/)).toBeTruthy();
+    });
+
+    fireEvent.click(screen.getByTestId('error-dismiss-button'));
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Failed to load/)).toBeNull();
     });
   });
 });

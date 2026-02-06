@@ -4,6 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    reviewers:
+      - "t-miller"
     commit-message:
       prefix: "fix"
       prefix-development: "chore"

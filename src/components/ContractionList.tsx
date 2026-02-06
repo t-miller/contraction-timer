@@ -106,7 +106,6 @@ export function ContractionList() {
         <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlay }]}>
           <View
             style={[styles.modalContent, { backgroundColor: colors.surface, boxShadow: `0 10px 20px ${colors.shadow}26` }]}
-            accessibilityRole="dialog"
             accessibilityLabel="Save contractions dialog"
           >
             <Text style={[styles.modalTitle, { color: colors.text }]} testID="modal-title">Save Set</Text>

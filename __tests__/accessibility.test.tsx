@@ -90,14 +90,13 @@ describe('Accessibility Compliance', () => {
   });
 
   describe('Modal accessibility', () => {
-    it('Instructions modal has dialog role', async () => {
+    it('Instructions modal has accessible label', async () => {
       renderWithProviders(<Instructions />);
 
       fireEvent.click(screen.getByTestId('instructions-button'));
 
       await waitFor(() => {
-        const dialog = screen.getByRole('dialog');
-        expect(dialog).toBeTruthy();
+        expect(screen.getByLabelText('Instructions dialog')).toBeTruthy();
       });
     });
   });

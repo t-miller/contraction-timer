@@ -28,7 +28,6 @@ export function Instructions() {
         <Pressable style={styles.modalOverlay} onPress={() => setShowModal(false)}>
           <View
             style={[styles.modalContent, { backgroundColor: colors.surface }]}
-            accessibilityRole="dialog"
             accessibilityLabel="Instructions dialog"
           >
             <Text style={[styles.modalTitle, { color: colors.text }]}>How to Use</Text>

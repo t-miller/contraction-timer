@@ -82,6 +82,7 @@ function AppContent() {
           name="Home"
           component={HomeScreen}
           options={{
+            tabBarAccessibilityLabel: 'Timer tab - track contractions',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon icon="⏱" label="Timer" focused={focused} color={color} />
             ),
@@ -91,6 +92,7 @@ function AppContent() {
           name="Saved Sets"
           component={SavedSetsScreen}
           options={{
+            tabBarAccessibilityLabel: 'Saved sets tab - view saved contraction sets',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon icon="📁" label="Saved" focused={focused} color={color} />
             ),
@@ -100,6 +102,7 @@ function AppContent() {
           name="Settings"
           component={SettingsScreen}
           options={{
+            tabBarAccessibilityLabel: 'Settings tab - app preferences',
             tabBarIcon: ({ color, focused }) => (
               <TabIcon icon="⚙️" label="Settings" focused={focused} color={color} />
             ),

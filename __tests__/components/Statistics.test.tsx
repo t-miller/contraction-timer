@@ -117,6 +117,66 @@ describe('Statistics', () => {
     });
   });
 
+  describe('accessibility', () => {
+    it('announces average duration stat', async () => {
+      const now = Date.now();
+      const contractions: Contraction[] = [
+        { id: '1', startTime: now - 120000, endTime: now - 60000 }, // 1 min
+      ];
+      await AsyncStorage.setItem('contractions', JSON.stringify(contractions));
+
+      render(
+        <TestWrapper>
+          <Statistics />
+        </TestWrapper>
+      );
+
+      await waitFor(() => {
+        const card = screen.getByTestId('stat-card-avg-duration');
+        expect(card.getAttribute('aria-label')).toMatch(/avg duration/i);
+      });
+    });
+
+    it('announces average interval stat', async () => {
+      const now = Date.now();
+      const contractions: Contraction[] = [
+        { id: '2', startTime: now - 60000, endTime: now - 30000 },
+        { id: '1', startTime: now - 180000, endTime: now - 120000 },
+      ];
+      await AsyncStorage.setItem('contractions', JSON.stringify(contractions));
+
+      render(
+        <TestWrapper>
+          <Statistics />
+        </TestWrapper>
+      );
+
+      await waitFor(() => {
+        const card = screen.getByTestId('stat-card-avg-interval');
+        expect(card.getAttribute('aria-label')).toMatch(/avg interval/i);
+      });
+    });
+
+    it('announces total time stat', async () => {
+      const now = Date.now();
+      const contractions: Contraction[] = [
+        { id: '1', startTime: now - 120000, endTime: now - 60000 },
+      ];
+      await AsyncStorage.setItem('contractions', JSON.stringify(contractions));
+
+      render(
+        <TestWrapper>
+          <Statistics />
+        </TestWrapper>
+      );
+
+      await waitFor(() => {
+        const card = screen.getByTestId('stat-card-total-time');
+        expect(card.getAttribute('aria-label')).toMatch(/total time/i);
+      });
+    });
+  });
+
   it('ignores contractions with null endTime', async () => {
     const now = Date.now();
     const contractions: Contraction[] = [

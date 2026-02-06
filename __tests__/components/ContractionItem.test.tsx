@@ -179,4 +179,69 @@ describe('ContractionItem', () => {
     const durationElement = screen.getByTestId('contraction-duration-1');
     expect(durationElement.textContent).toBe('10:00');
   });
+
+  describe('accessibility', () => {
+    it('has accessible label for the contraction item', () => {
+      const contraction: Contraction = {
+        id: '1',
+        startTime: baseTime,
+        endTime: baseTime + 60000,
+      };
+
+      render(
+        <TestWrapper>
+          <ContractionItem
+            contraction={contraction}
+            intervalFromPrevious={null}
+            index={1}
+          />
+        </TestWrapper>
+      );
+
+      const item = screen.getByTestId('contraction-item-1');
+      expect(item.getAttribute('aria-label')).toMatch(/contraction 1/i);
+    });
+
+    it('has accessible label for duration', () => {
+      const contraction: Contraction = {
+        id: '1',
+        startTime: baseTime,
+        endTime: baseTime + 90000, // 1:30
+      };
+
+      render(
+        <TestWrapper>
+          <ContractionItem
+            contraction={contraction}
+            intervalFromPrevious={null}
+            index={1}
+          />
+        </TestWrapper>
+      );
+
+      const item = screen.getByTestId('contraction-item-1');
+      expect(item.getAttribute('aria-label')).toMatch(/duration/i);
+    });
+
+    it('has accessible label for interval', () => {
+      const contraction: Contraction = {
+        id: '1',
+        startTime: baseTime,
+        endTime: baseTime + 60000,
+      };
+
+      render(
+        <TestWrapper>
+          <ContractionItem
+            contraction={contraction}
+            intervalFromPrevious={300000}
+            index={1}
+          />
+        </TestWrapper>
+      );
+
+      const item = screen.getByTestId('contraction-item-1');
+      expect(item.getAttribute('aria-label')).toMatch(/interval/i);
+    });
+  });
 });

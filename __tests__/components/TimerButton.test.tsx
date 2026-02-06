@@ -97,6 +97,53 @@ describe('TimerButton', () => {
     });
   });
 
+  describe('accessibility', () => {
+    it('has accessible label for start state', async () => {
+      render(
+        <TestWrapper>
+          <TimerButton />
+        </TestWrapper>
+      );
+
+      await waitFor(() => {
+        const button = screen.getByTestId('timer-button');
+        expect(button.getAttribute('aria-label')).toMatch(/start/i);
+      });
+    });
+
+    it('has accessible label for stop state', async () => {
+      render(
+        <TestWrapper>
+          <TimerButton />
+        </TestWrapper>
+      );
+
+      await waitFor(() => {
+        expect(screen.getByTestId('timer-button-text').textContent).toBe('START');
+      });
+
+      fireEvent.click(screen.getByTestId('timer-button'));
+
+      await waitFor(() => {
+        const button = screen.getByTestId('timer-button');
+        expect(button.getAttribute('aria-label')).toMatch(/stop/i);
+      });
+    });
+
+    it('has accessibility hint', async () => {
+      render(
+        <TestWrapper>
+          <TimerButton />
+        </TestWrapper>
+      );
+
+      await waitFor(() => {
+        const button = screen.getByTestId('timer-button');
+        expect(button.getAttribute('aria-label')).toBeTruthy();
+      });
+    });
+  });
+
   it('displays elapsed time when active', async () => {
     render(
       <TestWrapper>

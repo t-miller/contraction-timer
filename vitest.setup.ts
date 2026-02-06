@@ -52,6 +52,15 @@ vi.mock('react-native-safe-area-context', () => {
   };
 });
 
+// Mock expo-constants
+vi.mock('expo-constants', () => ({
+  default: {
+    expoConfig: {
+      version: '1.0.0',
+    },
+  },
+}));
+
 // Mock @react-navigation/native
 vi.mock('@react-navigation/native', () => ({
   useNavigation: () => ({

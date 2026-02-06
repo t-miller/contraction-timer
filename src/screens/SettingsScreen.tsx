@@ -20,7 +20,7 @@ export function SettingsScreen() {
   const { colors, themeMode, setThemeMode } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']} testID="settings-screen">
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Settings</Text>

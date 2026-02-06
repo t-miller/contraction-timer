@@ -1,10 +1,8 @@
 name: Test
 
 on:
-  push:
-    branches: [main, init]
   pull_request:
-    branches: [main, init]
+    branches: [main]
 
 permissions:
   contents: read

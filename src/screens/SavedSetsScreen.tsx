@@ -99,7 +99,7 @@ export function SavedSetsScreen() {
   );
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']} testID="saved-sets-screen">
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]}>Saved Sets</Text>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   View,
   Text,
@@ -39,12 +39,12 @@ export function ContractionList() {
     }
   };
 
-  const getIntervalFromPrevious = (index: number): number | null => {
+  const getIntervalFromPrevious = useCallback((index: number): number | null => {
     if (index >= state.contractions.length - 1) return null;
     const current = state.contractions[index];
     const previous = state.contractions[index + 1];
     return current.startTime - (previous.endTime || previous.startTime);
-  };
+  }, [state.contractions]);
 
   if (state.contractions.length === 0) {
     return (

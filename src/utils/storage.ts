@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Contraction, ContractionSet } from '../types';
 import { StorageError } from './errors';
+import { validateContractions, validateSets } from '../schemas';
 
 const STORAGE_KEY = 'contractions';
 const SETS_STORAGE_KEY = 'contractionSets';
@@ -17,7 +18,8 @@ export async function loadContractions(): Promise<Contraction[]> {
   try {
     const data = await AsyncStorage.getItem(STORAGE_KEY);
     if (!data) return [];
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    return validateContractions(parsed);
   } catch (error) {
     throw new StorageError('load', STORAGE_KEY, error);
   }
@@ -43,7 +45,8 @@ export async function loadSets(): Promise<ContractionSet[]> {
   try {
     const data = await AsyncStorage.getItem(SETS_STORAGE_KEY);
     if (!data) return [];
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    return validateSets(parsed);
   } catch (error) {
     throw new StorageError('load', SETS_STORAGE_KEY, error);
   }

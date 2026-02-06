@@ -167,4 +167,20 @@ describe('storage utilities', () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe('data validation', () => {
+    it('rejects invalid contractions on load', async () => {
+      const invalidData = JSON.stringify([{ invalid: 'data' }]);
+      await AsyncStorage.setItem('contractions', invalidData);
+
+      await expect(loadContractions()).rejects.toThrow(StorageError);
+    });
+
+    it('rejects invalid sets on load', async () => {
+      const invalidData = JSON.stringify([{ name: '' }]);
+      await AsyncStorage.setItem('contractionSets', invalidData);
+
+      await expect(loadSets()).rejects.toThrow(StorageError);
+    });
+  });
 });

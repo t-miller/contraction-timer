@@ -20,7 +20,13 @@ function StatCard({ value, label, isHighlighted }: StatCardProps) {
 
   const testIdLabel = label.toLowerCase().replace(/\s+/g, '-');
   return (
-    <View style={[styles.card, { backgroundColor, boxShadow: `0 2px 8px ${colors.cardShadow}` }]} testID={`stat-card-${testIdLabel}`}>
+    <View
+      style={[styles.card, { backgroundColor, boxShadow: `0 2px 8px ${colors.cardShadow}` }]}
+      testID={`stat-card-${testIdLabel}`}
+      accessible={true}
+      accessibilityRole="text"
+      accessibilityLabel={`${label}: ${value}`}
+    >
       <Text style={[styles.value, { color: textColor }]} testID={`stat-value-${testIdLabel}`}>{value}</Text>
       <Text style={[styles.label, { color: labelColor }]} testID={`stat-label-${testIdLabel}`}>{label}</Text>
     </View>

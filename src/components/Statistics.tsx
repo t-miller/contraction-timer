@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
+import { useStatistics } from '../hooks';
 import { formatDuration, formatDurationHoursMinutes } from '../utils/formatting';
 
 interface StatCardProps {
@@ -29,40 +30,10 @@ function StatCard({ value, label, isHighlighted }: StatCardProps) {
 export function Statistics() {
   const { state } = useContractions();
   const { colors } = useTheme();
-  const completedContractions = state.contractions.filter((c) => c.endTime !== null);
+  const stats = useStatistics(state.contractions);
 
-  const calculateAverageDuration = (): number => {
-    if (completedContractions.length === 0) return 0;
-    const totalDuration = completedContractions.reduce(
-      (sum, c) => sum + (c.endTime! - c.startTime),
-      0
-    );
-    return totalDuration / completedContractions.length;
-  };
-
-  const calculateAverageInterval = (): number => {
-    if (completedContractions.length < 2) return 0;
-    let totalInterval = 0;
-    let intervalCount = 0;
-    for (let i = 0; i < completedContractions.length - 1; i++) {
-      const current = completedContractions[i];
-      const previous = completedContractions[i + 1];
-      totalInterval += current.startTime - (previous.endTime || previous.startTime);
-      intervalCount++;
-    }
-    return intervalCount > 0 ? totalInterval / intervalCount : 0;
-  };
-
-  const calculateTotalDuration = (): number => {
-    if (completedContractions.length === 0) return 0;
-    const firstContraction = completedContractions[completedContractions.length - 1];
-    const lastContraction = completedContractions[0];
-    return lastContraction.endTime! - firstContraction.startTime;
-  };
-
-  const avgDuration = calculateAverageDuration();
-  const avgInterval = calculateAverageInterval();
-  const totalDuration = calculateTotalDuration();
+  const completedCount = state.contractions.filter((c) => c.endTime !== null).length;
+  const { averageDuration: avgDuration, averageInterval: avgInterval, totalDuration } = stats;
 
   // 5-1-1 rule thresholds
   const FIVE_MINUTES = 5 * 60 * 1000;
@@ -73,7 +44,7 @@ export function Statistics() {
   const isDurationMet = avgDuration >= ONE_MINUTE;
   const isTotalTimeMet = totalDuration >= ONE_HOUR;
 
-  if (completedContractions.length === 0) {
+  if (completedCount === 0) {
     return null;
   }
 

@@ -12,7 +12,7 @@ A cross-platform contraction timing tool for iOS, Android, and Web built with Re
 
 ## Stack Overview
 
-- **Framework**: React Native with Expo SDK 52
+- **Framework**: React Native with Expo SDK 54
 - **Language**: TypeScript
 - **Platforms**: iOS, Android, Web
 - **State Management**: React Context + useReducer
@@ -23,21 +23,22 @@ A cross-platform contraction timing tool for iOS, Android, and Web built with Re
 
 ```bash
 # Development
-npx expo start           # Start dev server
-npx expo start --web     # Start web only
-npx expo start --ios     # Start iOS simulator
-npx expo start --android # Start Android emulator
+pnpm start               # Start dev server
+pnpm web                 # Start web only
+pnpm ios                 # Start iOS simulator
+pnpm android             # Start Android emulator
 
 # Building
-npx expo build:ios       # Build iOS
-npx expo build:android   # Build Android
-npx expo export:web      # Export web build
+pnpm build:web           # Export web build
 
 # Testing
-pnpm test                # Run tests (if configured)
+pnpm test                # Run tests
+pnpm test:watch          # Run tests in watch mode
+pnpm typecheck           # Type check
 
 # Dependencies
 pnpm install             # Install dependencies
+pnpm run update:expo     # Fix Expo dependency versions
 ```
 
 ## Directory Structure

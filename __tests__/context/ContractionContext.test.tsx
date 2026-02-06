@@ -463,4 +463,34 @@ describe('ContractionContext', () => {
       consoleSpy.mockRestore();
     });
   });
+
+  describe('error state', () => {
+    it('exposes error state', async () => {
+      const { result } = renderHook(() => useContractions(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.state.isLoading).toBe(false);
+      });
+
+      expect(result.current.state.error).toBeNull();
+    });
+
+    it('can set and clear errors', async () => {
+      const { result } = renderHook(() => useContractions(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.state.isLoading).toBe(false);
+      });
+
+      act(() => {
+        result.current.setError(new Error('test error'));
+      });
+      expect(result.current.state.error?.message).toBe('test error');
+
+      act(() => {
+        result.current.clearError();
+      });
+      expect(result.current.state.error).toBeNull();
+    });
+  });
 });

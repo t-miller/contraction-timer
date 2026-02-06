@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
 import { ContractionSet } from '../types';
@@ -77,7 +78,7 @@ export function SavedSetsScreen() {
     >
       <View style={styles.cardContent}>
         <View style={[styles.iconContainer, { backgroundColor: colors.primaryLight }]}>
-          <Text style={styles.icon}>📋</Text>
+          <Ionicons name="document-text-outline" size={22} color={colors.primary} />
         </View>
         <View style={styles.cardInfo}>
           <Text style={[styles.setName, { color: colors.text }]}>{item.name}</Text>
@@ -111,7 +112,7 @@ export function SavedSetsScreen() {
       {state.savedSets.length === 0 ? (
         <View style={styles.emptyContainer}>
           <View style={[styles.emptyIconContainer, { backgroundColor: colors.surfaceSecondary }]}>
-            <Text style={styles.emptyIcon}>📁</Text>
+            <Ionicons name="folder-open-outline" size={32} color={colors.textSecondary} />
           </View>
           <Text style={[styles.emptyText, { color: colors.textSecondary }]}>No saved sets</Text>
           <Text style={[styles.emptyHint, { color: colors.textTertiary }]}>
@@ -176,9 +177,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 14,
   },
-  icon: {
-    fontSize: 22,
-  },
   cardInfo: {
     flex: 1,
   },
@@ -216,9 +214,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
-  },
-  emptyIcon: {
-    fontSize: 32,
   },
   emptyText: {
     fontSize: 18,

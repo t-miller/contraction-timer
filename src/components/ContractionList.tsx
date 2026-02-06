@@ -9,6 +9,7 @@ import {
   Modal,
   TextInput,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
 import { useSaveSetModal } from '../hooks';
@@ -49,8 +50,8 @@ export function ContractionList() {
   if (state.contractions.length === 0) {
     return (
       <View style={styles.emptyContainer} testID="empty-state">
-        <View style={[styles.emptyIconContainer, { backgroundColor: colors.surfaceSecondary }]}>
-          <Text style={styles.emptyIcon} testID="empty-state-icon">⏱</Text>
+        <View style={[styles.emptyIconContainer, { backgroundColor: colors.surfaceSecondary }]} testID="empty-state-icon">
+          <Ionicons name="timer-outline" size={32} color={colors.textSecondary} />
         </View>
         <Text style={[styles.emptyText, { color: colors.textSecondary }]} testID="empty-state-text">No contractions recorded</Text>
         <Text style={[styles.emptyHint, { color: colors.textTertiary }]} testID="empty-state-hint">
@@ -197,9 +198,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
-  },
-  emptyIcon: {
-    fontSize: 32,
   },
   emptyText: {
     fontSize: 18,

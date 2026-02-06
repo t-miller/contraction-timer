@@ -16,6 +16,7 @@ export interface AppState {
   activeContraction: Contraction | null;
   isLoading: boolean;
   savedSets: ContractionSet[];
+  error: Error | null;
 }
 
 export type AppAction =
@@ -26,7 +27,9 @@ export type AppAction =
   | { type: 'LOAD_SETS'; payload: ContractionSet[] }
   | { type: 'SAVE_SET'; payload: { name: string } }
   | { type: 'LOAD_SET'; payload: { id: string } }
-  | { type: 'DELETE_SET'; payload: { id: string } };
+  | { type: 'DELETE_SET'; payload: { id: string } }
+  | { type: 'SET_ERROR'; payload: Error }
+  | { type: 'CLEAR_ERROR' };
 
 export interface ContractionContextValue {
   state: AppState;
@@ -36,4 +39,6 @@ export interface ContractionContextValue {
   saveSet: (name: string) => void;
   loadSet: (id: string) => void;
   deleteSet: (id: string) => void;
+  setError: (error: Error) => void;
+  clearError: () => void;
 }

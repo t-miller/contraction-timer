@@ -99,6 +99,14 @@ export function TimerButton() {
             onPressOut={handlePressOut}
             activeOpacity={1}
             testID="timer-button"
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={isActive ? 'Stop contraction timer' : 'Start contraction timer'}
+            accessibilityHint={isActive
+              ? 'Tap to stop timing the current contraction'
+              : 'Tap to start timing a new contraction'
+            }
+            accessibilityState={{ busy: isActive }}
           >
             <Text style={styles.buttonText} testID="timer-button-text">
               {isActive ? 'STOP' : 'START'}

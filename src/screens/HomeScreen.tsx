@@ -11,7 +11,7 @@ export function HomeScreen() {
   const { colors } = useTheme();
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']} testID="home-screen">
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>

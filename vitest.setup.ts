@@ -46,10 +46,20 @@ vi.mock('react-native-safe-area-context', () => {
     }: {
       children: (insets: { top: number; right: number; bottom: number; left: number }) => React.ReactNode;
     }) => children({ top: 0, right: 0, bottom: 0, left: 0 }),
-    SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
+    SafeAreaView: ({ children, testID, style }: { children: React.ReactNode; testID?: string; style?: unknown }) =>
+      React.createElement('div', { 'data-testid': testID, style }, children),
     useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
   };
 });
+
+// Mock expo-constants
+vi.mock('expo-constants', () => ({
+  default: {
+    expoConfig: {
+      version: '1.0.0',
+    },
+  },
+}));
 
 // Mock @react-navigation/native
 vi.mock('@react-navigation/native', () => ({

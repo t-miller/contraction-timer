@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,16 @@ import {
 } from 'react-native';
 import { useContractions } from '../context/ContractionContext';
 import { useTheme } from '../context/ThemeContext';
+import { useSaveSetModal } from '../hooks';
 import { ContractionItem } from './ContractionItem';
 
 export function ContractionList() {
   const { state, clearHistory, saveSet } = useContractions();
   const { colors } = useTheme();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [setName, setSetName] = useState('');
+  const modal = useSaveSetModal({
+    onSave: saveSet,
+    fallbackName: `Set ${state.savedSets.length + 1}`,
+  });
 
   const handleClearHistory = () => {
     if (Platform.OS === 'web') {
@@ -34,17 +37,6 @@ export function ContractionList() {
         ]
       );
     }
-  };
-
-  const handleSaveSet = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleConfirmSave = () => {
-    const name = setName.trim() || `Set ${state.savedSets.length + 1}`;
-    saveSet(name);
-    setSetName('');
-    setIsModalVisible(false);
   };
 
   const getIntervalFromPrevious = (index: number): number | null => {
@@ -75,7 +67,7 @@ export function ContractionList() {
         <View style={styles.headerButtons}>
           <TouchableOpacity
             style={[styles.headerButton, { backgroundColor: colors.primaryLight }]}
-            onPress={handleSaveSet}
+            onPress={modal.open}
             testID="save-button"
           >
             <Text style={[styles.headerButtonText, { color: colors.primary }]}>Save</Text>
@@ -101,10 +93,10 @@ export function ContractionList() {
       </View>
 
       <Modal
-        visible={isModalVisible}
+        visible={modal.isVisible}
         transparent
         animationType="fade"
-        onRequestClose={() => setIsModalVisible(false)}
+        onRequestClose={modal.cancel}
       >
         <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlay }]}>
           <View style={[styles.modalContent, { backgroundColor: colors.surface, boxShadow: `0 10px 20px ${colors.shadow}26` }]}>
@@ -120,24 +112,21 @@ export function ContractionList() {
               }]}
               placeholder="e.g., Morning contractions"
               placeholderTextColor={colors.textTertiary}
-              value={setName}
-              onChangeText={setSetName}
+              value={modal.setName}
+              onChangeText={modal.updateSetName}
               autoFocus
             />
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.modalButton, { backgroundColor: colors.surfaceSecondary }]}
-                onPress={() => {
-                  setSetName('');
-                  setIsModalVisible(false);
-                }}
+                onPress={modal.cancel}
                 testID="modal-cancel-button"
               >
                 <Text style={[styles.modalButtonText, { color: colors.textSecondary }]}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.modalButton, styles.confirmButton, { backgroundColor: colors.primary }]}
-                onPress={handleConfirmSave}
+                onPress={modal.save}
                 testID="modal-save-button"
               >
                 <Text style={[styles.modalButtonText, { color: '#FFFFFF' }]}>Save</Text>

@@ -9,6 +9,7 @@ const initialState: AppState = {
   activeContraction: null,
   isLoading: true,
   savedSets: [],
+  error: null,
 };
 
 function reducer(state: AppState, action: AppAction): AppState {
@@ -79,6 +80,16 @@ function reducer(state: AppState, action: AppAction): AppState {
         ...state,
         savedSets: state.savedSets.filter((s) => s.id !== action.payload.id),
       };
+    case 'SET_ERROR':
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case 'CLEAR_ERROR':
+      return {
+        ...state,
+        error: null,
+      };
     default:
       return state;
   }
@@ -147,9 +158,17 @@ export function ContractionProvider({ children }: { children: React.ReactNode })
     dispatch({ type: 'DELETE_SET', payload: { id } });
   }, []);
 
+  const setError = useCallback((error: Error) => {
+    dispatch({ type: 'SET_ERROR', payload: error });
+  }, []);
+
+  const clearError = useCallback(() => {
+    dispatch({ type: 'CLEAR_ERROR' });
+  }, []);
+
   return (
     <ContractionContext.Provider
-      value={{ state, startContraction, endContraction, clearHistory, saveSet, loadSet, deleteSet }}
+      value={{ state, startContraction, endContraction, clearHistory, saveSet, loadSet, deleteSet, setError, clearError }}
     >
       {children}
     </ContractionContext.Provider>

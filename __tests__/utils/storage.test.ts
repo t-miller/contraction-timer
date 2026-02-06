@@ -8,6 +8,7 @@ import {
   loadSets,
 } from '../../src/utils/storage';
 import { Contraction, ContractionSet } from '../../src/types';
+import { StorageError } from '../../src/utils/errors';
 
 describe('storage utilities', () => {
   beforeEach(async () => {
@@ -76,14 +77,30 @@ describe('storage utilities', () => {
       expect(result).toEqual([]);
     });
 
-    it('returns empty array on parse error', async () => {
+    it('throws StorageError when JSON is corrupted', async () => {
       await AsyncStorage.setItem('contractions', 'invalid json');
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-      const result = await loadContractions();
+      await expect(loadContractions()).rejects.toThrow(StorageError);
+    });
 
-      expect(result).toEqual([]);
-      consoleSpy.mockRestore();
+    it('throws StorageError with correct message when JSON is corrupted', async () => {
+      await AsyncStorage.setItem('contractions', 'invalid json');
+
+      await expect(loadContractions()).rejects.toThrow('Failed to load contractions');
+    });
+  });
+
+  describe('saveContractions error handling', () => {
+    it('throws StorageError when save fails', async () => {
+      vi.mocked(AsyncStorage.setItem).mockRejectedValueOnce(new Error('disk full'));
+
+      await expect(saveContractions([])).rejects.toThrow(StorageError);
+    });
+
+    it('throws StorageError with correct message when save fails', async () => {
+      vi.mocked(AsyncStorage.setItem).mockRejectedValueOnce(new Error('disk full'));
+
+      await expect(saveContractions([])).rejects.toThrow('Failed to save contractions');
     });
   });
 

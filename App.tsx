@@ -3,6 +3,7 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import { ContractionProvider } from './src/context/ContractionContext';
 import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import { HomeScreen } from './src/screens/HomeScreen';
@@ -12,7 +13,7 @@ import { SettingsScreen } from './src/screens/SettingsScreen';
 const Tab = createBottomTabNavigator();
 
 interface TabIconProps {
-  icon: string;
+  icon: keyof typeof Ionicons.glyphMap;
   label: string;
   focused: boolean;
   color: string;
@@ -26,7 +27,7 @@ function TabIcon({ icon, label, focused, color }: TabIconProps) {
         styles.tabIconBackground,
         focused && { backgroundColor: colors.primaryLight }
       ]}>
-        <Text style={[styles.tabIcon, { opacity: focused ? 1 : 0.7 }]}>{icon}</Text>
+        <Ionicons name={icon} size={20} color={color} />
       </View>
       <Text style={[styles.tabLabel, { color, fontWeight: focused ? '600' : '500' }]}>{label}</Text>
     </View>
@@ -84,7 +85,7 @@ function AppContent() {
           options={{
             tabBarAccessibilityLabel: 'Timer tab - track contractions',
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon="⏱" label="Timer" focused={focused} color={color} />
+              <TabIcon icon="timer-outline" label="Timer" focused={focused} color={color} />
             ),
           }}
         />
@@ -94,7 +95,7 @@ function AppContent() {
           options={{
             tabBarAccessibilityLabel: 'Saved sets tab - view saved contraction sets',
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon="📁" label="Saved" focused={focused} color={color} />
+              <TabIcon icon="folder-outline" label="Saved" focused={focused} color={color} />
             ),
           }}
         />
@@ -104,7 +105,7 @@ function AppContent() {
           options={{
             tabBarAccessibilityLabel: 'Settings tab - app preferences',
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon icon="⚙️" label="Settings" focused={focused} color={color} />
+              <TabIcon icon="settings-outline" label="Settings" focused={focused} color={color} />
             ),
           }}
         />
@@ -126,9 +127,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 4,
-  },
-  tabIcon: {
-    fontSize: 20,
   },
   tabLabel: {
     fontSize: 11,

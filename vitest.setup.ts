@@ -52,6 +52,12 @@ vi.mock('react-native-safe-area-context', () => {
   };
 });
 
+// Mock @expo/vector-icons
+vi.mock('@expo/vector-icons', () => ({
+  Ionicons: ({ name, size, color }: { name: string; size: number; color: string }) =>
+    React.createElement('span', { 'data-testid': `icon-${name}`, style: { fontSize: size, color } }),
+}));
+
 // Mock expo-constants
 vi.mock('expo-constants', () => ({
   default: {

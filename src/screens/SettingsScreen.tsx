@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Constants from 'expo-constants';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme, ThemeMode } from '../context/ThemeContext';
 
-const themeOptions: { value: ThemeMode; label: string; icon: string; description: string }[] = [
-  { value: 'system', label: 'System', icon: '📱', description: 'Match your device settings' },
-  { value: 'light', label: 'Light', icon: '☀️', description: 'Always use light mode' },
-  { value: 'dark', label: 'Dark', icon: '🌙', description: 'Always use dark mode' },
+const themeOptions: { value: ThemeMode; label: string; icon: keyof typeof Ionicons.glyphMap; description: string }[] = [
+  { value: 'system', label: 'System', icon: 'phone-portrait-outline', description: 'Match your device settings' },
+  { value: 'light', label: 'Light', icon: 'sunny-outline', description: 'Always use light mode' },
+  { value: 'dark', label: 'Dark', icon: 'moon-outline', description: 'Always use dark mode' },
 ];
 
 export function SettingsScreen() {
@@ -45,7 +46,7 @@ export function SettingsScreen() {
                 activeOpacity={0.7}
               >
                 <View style={[styles.optionIcon, { backgroundColor: isSelected ? colors.primaryLight : colors.surfaceSecondary }]}>
-                  <Text style={styles.iconText}>{option.icon}</Text>
+                  <Ionicons name={option.icon} size={18} color={isSelected ? colors.primary : colors.textSecondary} />
                 </View>
                 <View style={styles.optionContent}>
                   <Text style={[styles.optionLabel, { color: colors.text }]}>
@@ -124,9 +125,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
-  },
-  iconText: {
-    fontSize: 18,
   },
   optionContent: {
     flex: 1,

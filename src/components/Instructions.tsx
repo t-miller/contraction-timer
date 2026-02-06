@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
 
 export function Instructions() {
@@ -15,7 +16,7 @@ export function Instructions() {
         accessibilityHint="Tap to view app instructions"
         testID="instructions-button"
       >
-        <Text style={styles.icon}>ℹ️</Text>
+        <Ionicons name="information-circle-outline" size={18} color={colors.textSecondary} />
       </TouchableOpacity>
 
       <Modal
@@ -71,9 +72,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  icon: {
-    fontSize: 18,
   },
   modalOverlay: {
     flex: 1,

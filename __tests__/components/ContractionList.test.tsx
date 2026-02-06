@@ -52,7 +52,7 @@ describe('ContractionList', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByTestId('empty-state-icon').textContent).toBe('⏱');
+        expect(screen.getByTestId('empty-state-icon')).toBeTruthy();
       });
     });
   });

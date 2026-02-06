@@ -4,6 +4,7 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ContractionProvider, useContractions } from '../../src/context/ContractionContext';
 import { Contraction, ContractionSet } from '../../src/types';
+import { StorageError } from '../../src/utils/errors';
 
 // Mock Date.now for predictable timestamps
 const mockNow = 1700000000000;
@@ -491,6 +492,19 @@ describe('ContractionContext', () => {
         result.current.clearError();
       });
       expect(result.current.state.error).toBeNull();
+    });
+
+    it('captures storage errors in error state on load', async () => {
+      await AsyncStorage.setItem('contractions', 'invalid json');
+
+      const { result } = renderHook(() => useContractions(), { wrapper });
+
+      await waitFor(() => {
+        expect(result.current.state.isLoading).toBe(false);
+      });
+
+      expect(result.current.state.error).toBeInstanceOf(StorageError);
+      expect(result.current.state.error?.message).toBe('Failed to load contractions');
     });
   });
 });

@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
-import { Alert } from 'react-native';
 import { AppState, AppAction, ContractionContextValue, Contraction, ContractionSet } from '../types';
 import { generateId } from '../utils/formatting';
 import { saveContractions, loadContractions, clearContractions, saveSets, loadSets } from '../utils/storage';
@@ -102,21 +101,31 @@ export function ContractionProvider({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     const load = async () => {
-      const contractions = await loadContractions();
-      dispatch({ type: 'LOAD_CONTRACTIONS', payload: contractions });
       try {
-        const sets = await loadSets();
-        dispatch({ type: 'LOAD_SETS', payload: sets });
+        const [loadedContractions, loadedSets] = await Promise.all([
+          loadContractions(),
+          loadSets(),
+        ]);
+        dispatch({ type: 'LOAD_CONTRACTIONS', payload: loadedContractions });
+        dispatch({ type: 'LOAD_SETS', payload: loadedSets });
       } catch (error) {
-        Alert.alert('Error', (error as Error).message);
+        dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error : new Error(String(error)) });
+        dispatch({ type: 'LOAD_CONTRACTIONS', payload: [] });
       }
     };
     load();
   }, []);
 
   useEffect(() => {
+    const save = async () => {
+      try {
+        await saveContractions(state.contractions);
+      } catch (error) {
+        dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error : new Error(String(error)) });
+      }
+    };
     if (!state.isLoading) {
-      saveContractions(state.contractions);
+      save();
     }
   }, [state.contractions, state.isLoading]);
 
@@ -125,7 +134,7 @@ export function ContractionProvider({ children }: { children: React.ReactNode })
       try {
         await saveSets(state.savedSets);
       } catch (error) {
-        Alert.alert('Error', (error as Error).message);
+        dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error : new Error(String(error)) });
       }
     };
     if (!state.isLoading) {

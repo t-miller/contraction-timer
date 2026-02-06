@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, useEffect, useCallback } 
 import { AppState, AppAction, ContractionContextValue, Contraction, ContractionSet } from '../types';
 import { generateId } from '../utils/formatting';
 import { saveContractions, loadContractions, clearContractions, saveSets, loadSets } from '../utils/storage';
+import { migrateData } from '../utils/migrations';
 
 const initialState: AppState = {
   contractions: [],
@@ -102,6 +103,7 @@ export function ContractionProvider({ children }: { children: React.ReactNode })
   useEffect(() => {
     const load = async () => {
       try {
+        await migrateData();
         const [loadedContractions, loadedSets] = await Promise.all([
           loadContractions(),
           loadSets(),

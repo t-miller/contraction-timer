@@ -35,7 +35,7 @@ export async function clearContractions(): Promise<void> {
 export async function saveSets(sets: ContractionSet[]): Promise<void> {
   try {
     await AsyncStorage.setItem(SETS_STORAGE_KEY, JSON.stringify(sets));
-  } catch (error) {
+  } catch (_error) {
     throw new Error('Failed to save contraction sets. Please try again.');
   }
 }
@@ -47,7 +47,7 @@ export async function loadSets(): Promise<ContractionSet[]> {
       return JSON.parse(data);
     }
     return [];
-  } catch (error) {
+  } catch (_error) {
     throw new Error('Failed to load saved sets. Please restart the app.');
   }
 }

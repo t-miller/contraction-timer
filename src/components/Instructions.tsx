@@ -13,6 +13,7 @@ export function Instructions() {
         onPress={() => setShowModal(true)}
         accessibilityLabel="Instructions"
         accessibilityHint="Tap to view app instructions"
+        testID="instructions-button"
       >
         <Text style={styles.icon}>ℹ️</Text>
       </TouchableOpacity>

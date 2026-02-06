@@ -23,9 +23,14 @@ export function Instructions() {
         transparent
         animationType="fade"
         onRequestClose={() => setShowModal(false)}
+        accessibilityViewIsModal={true}
       >
         <Pressable style={styles.modalOverlay} onPress={() => setShowModal(false)}>
-          <View style={[styles.modalContent, { backgroundColor: colors.surface }]}>
+          <View
+            style={[styles.modalContent, { backgroundColor: colors.surface }]}
+            accessibilityRole="dialog"
+            accessibilityLabel="Instructions dialog"
+          >
             <Text style={[styles.modalTitle, { color: colors.text }]}>How to Use</Text>
 
             <View style={styles.instructionsList}>
@@ -43,6 +48,8 @@ export function Instructions() {
             <TouchableOpacity
               style={[styles.closeButton, { backgroundColor: colors.primary }]}
               onPress={() => setShowModal(false)}
+              accessibilityRole="button"
+              accessibilityLabel="Close instructions"
             >
               <Text style={styles.closeButtonText}>Got it</Text>
             </TouchableOpacity>

@@ -69,6 +69,8 @@ export function ContractionList() {
             style={[styles.headerButton, { backgroundColor: colors.primaryLight }]}
             onPress={modal.open}
             testID="save-button"
+            accessibilityRole="button"
+            accessibilityLabel="Save contractions"
           >
             <Text style={[styles.headerButtonText, { color: colors.primary }]}>Save</Text>
           </TouchableOpacity>
@@ -76,6 +78,8 @@ export function ContractionList() {
             style={[styles.headerButton, { backgroundColor: colors.dangerLight }]}
             onPress={handleClearHistory}
             testID="clear-button"
+            accessibilityRole="button"
+            accessibilityLabel="Clear history"
           >
             <Text style={[styles.headerButtonText, { color: colors.danger }]}>Clear</Text>
           </TouchableOpacity>
@@ -97,9 +101,14 @@ export function ContractionList() {
         transparent
         animationType="fade"
         onRequestClose={modal.cancel}
+        accessibilityViewIsModal={true}
       >
         <View style={[styles.modalOverlay, { backgroundColor: colors.modalOverlay }]}>
-          <View style={[styles.modalContent, { backgroundColor: colors.surface, boxShadow: `0 10px 20px ${colors.shadow}26` }]}>
+          <View
+            style={[styles.modalContent, { backgroundColor: colors.surface, boxShadow: `0 10px 20px ${colors.shadow}26` }]}
+            accessibilityRole="dialog"
+            accessibilityLabel="Save contractions dialog"
+          >
             <Text style={[styles.modalTitle, { color: colors.text }]} testID="modal-title">Save Set</Text>
             <Text style={[styles.modalSubtitle, { color: colors.textSecondary }]} testID="modal-subtitle">
               Give this recording session a name
@@ -115,12 +124,16 @@ export function ContractionList() {
               value={modal.setName}
               onChangeText={modal.updateSetName}
               autoFocus
+              accessibilityLabel="Set name input"
+              accessibilityHint="Enter a name for this contraction set"
             />
             <View style={styles.modalButtons}>
               <TouchableOpacity
                 style={[styles.modalButton, { backgroundColor: colors.surfaceSecondary }]}
                 onPress={modal.cancel}
                 testID="modal-cancel-button"
+                accessibilityRole="button"
+                accessibilityLabel="Cancel"
               >
                 <Text style={[styles.modalButtonText, { color: colors.textSecondary }]}>Cancel</Text>
               </TouchableOpacity>
@@ -128,6 +141,8 @@ export function ContractionList() {
                 style={[styles.modalButton, styles.confirmButton, { backgroundColor: colors.primary }]}
                 onPress={modal.save}
                 testID="modal-save-button"
+                accessibilityRole="button"
+                accessibilityLabel="Save set"
               >
                 <Text style={[styles.modalButtonText, { color: '#FFFFFF' }]}>Save</Text>
               </TouchableOpacity>

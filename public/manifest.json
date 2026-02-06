@@ -1,0 +1,41 @@
+{
+  "name": "Contraction Timer",
+  "short_name": "Contractions",
+  "description": "Free contraction timer to track labor contractions. Time duration and frequency with one tap.",
+  "start_url": "/contraction-timer/",
+  "scope": "/contraction-timer/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#e91e63",
+  "background_color": "#ffffff",
+  "categories": ["health", "medical", "utilities"],
+  "icons": [
+    {
+      "src": "/contraction-timer/assets/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/contraction-timer/assets/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/contraction-timer/assets/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/contraction-timer/assets/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/contraction-timer/assets/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

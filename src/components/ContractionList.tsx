@@ -64,7 +64,7 @@ export function ContractionList() {
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]} testID="contraction-list">
       <View style={styles.header}>
-        <Text style={[styles.headerText, { color: colors.textSecondary }]} testID="history-header">History</Text>
+        <Text style={[styles.headerText, { color: colors.textSecondary }]} testID="history-header" accessibilityRole="header" aria-level={2}>History</Text>
         <View style={styles.headerButtons}>
           <TouchableOpacity
             style={[styles.headerButton, { backgroundColor: colors.primaryLight }]}

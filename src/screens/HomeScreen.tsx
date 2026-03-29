@@ -21,7 +21,7 @@ export function HomeScreen() {
         <View style={styles.header}>
           <View style={styles.headerContent}>
             <View style={styles.headerText}>
-              <Text style={[styles.title, { color: colors.text }]}>Contraction Timer</Text>
+              <Text style={[styles.title, { color: colors.text }]} accessibilityRole="header" aria-level={1}>Contraction Timer</Text>
               <Text style={[styles.subtitle, { color: colors.textTertiary }]}>Track and time your contractions</Text>
             </View>
             <Instructions />

@@ -24,12 +24,12 @@ export function SettingsScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']} testID="settings-screen">
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Settings</Text>
+        <Text style={[styles.title, { color: colors.text }]} accessibilityRole="header" aria-level={1}>Settings</Text>
         <Text style={[styles.subtitle, { color: colors.textTertiary }]}>Customize your experience</Text>
       </View>
 
       <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: colors.textSecondary }]}>
+        <Text style={[styles.sectionTitle, { color: colors.textSecondary }]} accessibilityRole="header" aria-level={2}>
           Appearance
         </Text>
         <View style={[styles.optionGroup, { backgroundColor: colors.surface, boxShadow: `0 2px 8px ${colors.cardShadow}` }]}>

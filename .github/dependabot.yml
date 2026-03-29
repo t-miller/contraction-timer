@@ -21,6 +21,7 @@ updates:
       - dependency-name: "react-dom"
       - dependency-name: "react-native"
       - dependency-name: "react-native-*"
+      - dependency-name: "@react-native-async-storage/async-storage"
       - dependency-name: "@types/react"
       - dependency-name: "expo"
       - dependency-name: "expo-*"

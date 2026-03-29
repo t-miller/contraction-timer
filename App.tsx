@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   tabLabel: {
-    fontSize: 11,
+    fontSize: 12,
     textAlign: 'center',
   },
 });

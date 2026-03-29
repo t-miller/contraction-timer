@@ -104,7 +104,7 @@ export function SavedSetsScreen() {
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.text }]} accessibilityRole="header" aria-level={1}>Saved Sets</Text>
-        <Text style={[styles.subtitle, { color: colors.textTertiary }]}>
+        <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
           {state.savedSets.length} saved recording{state.savedSets.length !== 1 ? 's' : ''}
         </Text>
       </View>

@@ -75,6 +75,8 @@ export function SavedSetsScreen() {
       style={[styles.card, { backgroundColor: colors.surface, boxShadow: `0 2px 8px ${colors.cardShadow}` }]}
       onPress={() => handleLoadSet(item)}
       activeOpacity={0.7}
+      accessibilityRole="button"
+      accessibilityLabel={`Load ${item.name}, ${item.contractions.length} contraction${item.contractions.length !== 1 ? 's' : ''}`}
     >
       <View style={styles.cardContent}>
         <View style={[styles.iconContainer, { backgroundColor: colors.primaryLight }]}>
@@ -92,6 +94,8 @@ export function SavedSetsScreen() {
         <TouchableOpacity
           style={[styles.deleteButton, { backgroundColor: colors.dangerLight }]}
           onPress={() => handleDeleteSet(item)}
+          accessibilityRole="button"
+          accessibilityLabel={`Delete ${item.name}`}
         >
           <Text style={[styles.deleteButtonText, { color: colors.danger }]}>Delete</Text>
         </TouchableOpacity>

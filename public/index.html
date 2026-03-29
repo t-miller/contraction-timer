@@ -130,6 +130,14 @@
         outline: 2px solid #6366F1;
         outline-offset: 2px;
       }
+      /* Hover feedback for desktop users */
+      @media (hover: hover) {
+        [role="button"]:hover,
+        [role="tab"]:hover {
+          opacity: 0.85;
+          transition: opacity 0.15s ease-out;
+        }
+      }
     </style>
   </head>
 

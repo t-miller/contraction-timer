@@ -56,7 +56,7 @@ export function Statistics() {
 
   return (
     <View style={styles.container} testID="statistics-container">
-      <Text style={[styles.sectionTitle, { color: colors.textSecondary }]} testID="statistics-title">Statistics</Text>
+      <Text style={[styles.sectionTitle, { color: colors.textSecondary }]} testID="statistics-title" accessibilityRole="header" aria-level={2}>Statistics</Text>
       <View style={styles.cardsRow}>
         {avgInterval > 0 && (
           <StatCard

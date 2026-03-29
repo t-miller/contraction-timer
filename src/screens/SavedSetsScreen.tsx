@@ -103,7 +103,7 @@ export function SavedSetsScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]} edges={['top']} testID="saved-sets-screen">
       <StatusBar barStyle={colors.statusBar} backgroundColor={colors.background} />
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Saved Sets</Text>
+        <Text style={[styles.title, { color: colors.text }]} accessibilityRole="header" aria-level={1}>Saved Sets</Text>
         <Text style={[styles.subtitle, { color: colors.textTertiary }]}>
           {state.savedSets.length} saved recording{state.savedSets.length !== 1 ? 's' : ''}
         </Text>

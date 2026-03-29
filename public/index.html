@@ -120,6 +120,16 @@
         height: 100%;
         flex: 1;
       }
+      /* Restore focus-visible indicator for keyboard accessibility */
+      [role="button"]:focus-visible,
+      [role="tab"]:focus-visible,
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      [tabindex]:focus-visible {
+        outline: 2px solid #6366F1;
+        outline-offset: 2px;
+      }
     </style>
   </head>
 

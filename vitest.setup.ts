@@ -37,6 +37,21 @@ vi.mock('@react-native-async-storage/async-storage', () => {
   };
 });
 
+// React Native accepts an array (recursive, with null/false entries) for `style`.
+// react-dom 19.2 + jsdom 29 reject array indices on CSSStyleDeclaration's Proxy,
+// so any mock that forwards RN styles to a DOM element must flatten first.
+const flattenStyle = (style: unknown): Record<string, unknown> | undefined => {
+  if (style == null || style === false) return undefined;
+  if (Array.isArray(style)) {
+    return style.reduce<Record<string, unknown>>((acc, entry) => {
+      const flat = flattenStyle(entry);
+      if (flat) Object.assign(acc, flat);
+      return acc;
+    }, {});
+  }
+  return style as Record<string, unknown>;
+};
+
 // Mock react-native-safe-area-context
 vi.mock('react-native-safe-area-context', () => {
   return {
@@ -47,7 +62,7 @@ vi.mock('react-native-safe-area-context', () => {
       children: (insets: { top: number; right: number; bottom: number; left: number }) => React.ReactNode;
     }) => children({ top: 0, right: 0, bottom: 0, left: 0 }),
     SafeAreaView: ({ children, testID, style }: { children: React.ReactNode; testID?: string; style?: unknown }) =>
-      React.createElement('div', { 'data-testid': testID, style }, children),
+      React.createElement('div', { 'data-testid': testID, style: flattenStyle(style) }, children),
     useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
   };
 });
